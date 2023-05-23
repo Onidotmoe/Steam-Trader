@@ -1,0 +1,1354 @@
+﻿<Window
+    x:Class="MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Steam Trader"
+    Width="845"
+    Height="645"
+    MinWidth="550"
+    Closed="Window_Closed"
+    Closing="Window_Closing"
+    Icon="{StaticResource WindowIcon}"
+    KeyDown="Window_KeyDown"
+    Loaded="Window_Loaded"
+    MouseMove="Window_MouseMove"
+    MouseRightButtonDown="Window_MouseRightButtonDown"
+    mc:Ignorable="d"
+    WindowStyle="None">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resource Directory.xaml" />
+                <ResourceDictionary />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="{Binding ActualHeight,ElementName=titlebar}" />
+    </WindowChrome.WindowChrome>
+
+    <DockPanel LastChildFill="True">
+        <Border Background="#2D2D30" DockPanel.Dock="Top" Height="25" x:Name="titlebar">
+            <Grid>
+                <TextBlock Text="{Binding Title, RelativeSource={RelativeSource FindAncestor,AncestorType=Window},FallbackValue=Title}"
+                           Margin="10,0,0,0"
+                           VerticalAlignment="Center">
+                </TextBlock>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="MinButton" Content="Min" Click="MinimizeButton_Click" Width="50" WindowChrome.IsHitTestVisibleInChrome="True" />
+                    <Button x:Name="MaxButton" Content="Max" Click="MaximizeButton_Click" Width="50" WindowChrome.IsHitTestVisibleInChrome="True" />
+                    <Button x:Name="CloseButton" Content="X" Click="CloseButton_Click" Width="50" WindowChrome.IsHitTestVisibleInChrome="True" />
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Border BorderBrush="#333337" BorderThickness="1" Padding="4">
+            <Grid>
+                <Popup
+            Name="PopUp_PropertyBrush"
+            AllowsTransparency="True"
+            Placement="Relative">
+                    <Label
+                x:Name="Hint"
+                Width="Auto"
+                Height="25"
+                Panel.ZIndex="1000" />
+                </Popup>
+
+                <Border
+            Margin="10,65,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            BorderBrush="Black"
+            BorderThickness="0.5">
+                    <StackPanel
+                Width="50"
+                Height="20"
+                Orientation="Horizontal">
+                        <Button
+                    x:Name="Btn_Login"
+                    Width="38"
+                    Height="20"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    BorderThickness="0"
+                    Click="Btn_Login_Click"
+                    FontSize="10">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.LoginButtonSetting}" Value="0">
+                                            <Setter Property="Content" Value="LogIn" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.LoginButtonSetting}" Value="1">
+                                            <Setter Property="Content" Value="Cancel" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.LoginButtonSetting}" Value="2">
+                                            <Setter Property="Content" Value="LogOff" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.LoginButtonSetting}" Value="3">
+                                            <Setter Property="Content" Value="LogOut" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.LoginButtonSetting}" Value="4">
+                                            <Setter Property="Content" Value="ReLogIn" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button
+                    Width="11.5"
+                    Height="20"
+                    BorderThickness="0"
+                    Click="Button_LogIn_Cbx_Click"
+                    ContextMenuService.IsEnabled="False"
+                    FontSize="7">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                                    <Setter Property="Content" Value="▼" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.LoginButtonSetting}" Value="1">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ContextMenu.IsOpen, RelativeSource={RelativeSource Self}}" Value="True">
+                                            <Setter Property="Content" Value="▲" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <Button.ContextMenu>
+                                <ContextMenu DataContext="{Binding Path=PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                    <MenuItem
+                                Click="Button_LogIn_Cbx_Item_Click"
+                                Header="ReLogIn"
+                                ToolTip="ReLogIn to Steam and Steam Trader, with the selected user's session.">
+                                        <MenuItem.Style>
+                                            <Style TargetType="{x:Type MenuItem}">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.DataContext.Settings.Container.LoginButtonSetting}" Value="0" />
+                                                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.DataContext.Settings.Container.ReLoginPossible}" Value="True" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </MenuItem.Style>
+                                    </MenuItem>
+                                    <MenuItem
+                                Click="Button_LogIn_Cbx_Item_Click"
+                                Header="LogIn"
+                                ToolTip="LogIn to Steam and Steam Trader.">
+                                        <MenuItem.Style>
+                                            <Style TargetType="{x:Type MenuItem}">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.DataContext.Settings.Network.IsLoggedIn}" Value="False" />
+                                                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.DataContext.Settings.Container.LoginButtonSetting}" Value="4" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </MenuItem.Style>
+                                    </MenuItem>
+                                    <MenuItem
+                                Click="Button_LogIn_Cbx_Item_Click"
+                                Header="LogOut"
+                                ToolTip="Will send a LogOut request to Steam and also logging you out of Steam Trader and will require password next LogIn.">
+                                        <MenuItem.Style>
+                                            <Style TargetType="{x:Type MenuItem}">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.DataContext.Settings.Network.IsLoggedIn}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </MenuItem.Style>
+                                    </MenuItem>
+                                    <MenuItem
+                                Click="Button_LogIn_Cbx_Item_Click"
+                                Header="LogOff"
+                                ToolTip="Will log you off Steam Trader but does not log you out of Steam.">
+                                        <MenuItem.Style>
+                                            <Style TargetType="{x:Type MenuItem}">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.DataContext.Settings.Network.IsLoggedIn}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </MenuItem.Style>
+                                    </MenuItem>
+                                    <Separator />
+                                    <MenuItem
+                                Click="Button_LogIn_Cbx_Item_Click"
+                                Header="Change User"
+                                ToolTip="Change to a different Steam Trader user." />
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+                <Button
+            x:Name="Btn_Save"
+            Width="50"
+            Margin="10,93,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Save">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                            <Setter Property="IsEnabled" Value="False" />
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Settings.Container.IsRunning.Saving}" Value="False" />
+                                        <Condition Binding="{Binding Network.IsLoggedIn}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <MultiDataTrigger.Setters>
+                                        <Setter Property="IsEnabled" Value="True" />
+                                    </MultiDataTrigger.Setters>
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Border
+            Width="50"
+            Height="50"
+            Margin="10,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            BorderBrush="Black"
+            BorderThickness="1">
+                    <Grid>
+                        <Viewbox Stretch="Uniform">
+                            <Grid>
+                                <Image
+                            x:Name="Img_Profile"
+                            Source="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.CurrentUser.ImageSource, Converter={StaticResource NullImageConverter}, FallbackValue={x:Null}}"
+                            Stretch="Uniform" />
+                                <Label Content="👤">
+                                    <Label.Style>
+                                        <Style>
+                                            <Setter Property="Label.Visibility" Value="Hidden" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.CurrentUser.ImageSource, Converter={StaticResource NullImageConverter}}" Value="{x:Null}">
+                                                    <Setter Property="Label.Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                </Label>
+                            </Grid>
+                        </Viewbox>
+                    </Grid>
+                </Border>
+                <Label Margin="65,10,0,0" Content="User : " />
+                <Label Margin="65,34,0,0" Content="Balance : " />
+                <Label Margin="65,60,0,0" Content="Metal :" />
+                <Label Margin="65,85,0,0" Content="Keys :" />
+                <Label Margin="241,10,0,0" Content="Total For Sale : " />
+                <Label Margin="241,34,0,0" Content="Ref for Key : " />
+                <Label Margin="403,11,0,0" Content="Cash for Ref : " />
+                <Label x:Name="L_User" Margin="121,5,0,0">
+                    <Hyperlink NavigateUri="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.CurrentUser.Link}" RequestNavigate="Hyperlink_RequestNavigate">
+                        <Label HorizontalContentAlignment="Left" Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.CurrentUser.PersonaName}">
+                            <Label.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <Trigger Property="Label.IsMouseOver" Value="True">
+                                            <Setter Property="Label.Foreground" Value="LightBlue" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                    </Hyperlink>
+                </Label>
+                <Label
+            x:Name="L_Balance"
+            Margin="126,34,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.Balance}"
+            MouseDoubleClick="L_Balance_MouseDoubleClick">
+                    <Label.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <Trigger Property="Label.IsMouseOver" Value="True">
+                                    <Setter Property="Label.Foreground" Value="LightBlue" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+                <Label
+            x:Name="L_Refined"
+            Margin="126,60,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.BalanceMetal}"
+            MouseDoubleClick="UpdateMetalCount">
+                    <Label.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <Trigger Property="Label.IsMouseOver" Value="True">
+                                    <Setter Property="Label.Foreground" Value="LightBlue" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+                <Label
+            x:Name="L_Keys"
+            Margin="121,85,480,494"
+                                HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.TotalMetal.Key}"
+            MouseDoubleClick="UpdateMetalCount">
+                    <Label.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <Trigger Property="Label.IsMouseOver" Value="True">
+                                    <Setter Property="Label.Foreground" Value="LightBlue" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+                <Label
+            x:Name="L_TotalForSale"
+            Margin="337,10,0,0"
+            Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.TotalForSale}" />
+                <Label
+            x:Name="L_RefForKey"
+            Margin="337,34,0,0"
+            Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.Backpack_Price_Key_InMetal}" />
+                <TextBlock
+            x:Name="L_CashForRef"
+            Margin="495,15,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.Exchange_ToMoney_Refined, StringFormat=N3}" />
+                <Button
+            Width="50"
+            Height="23"
+            Margin="10,122,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Click="Btn_Search_Click"
+            Content="Search" />
+                <Button
+            x:Name="Btn_OpenAuthApp"
+            Width="90"
+            Margin="0,10,115,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Click="Btn_OpenAuthApp_Click">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource QuickButtons}">
+                            <Setter Property="Content" Value="Open AuthApp" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.AuthAppOpen}" Value="True">
+                                    <Setter Property="Content" Value="Close AuthApp" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button
+            x:Name="Btn_SelectedFavorite"
+            Margin="0,67,250.4,0"
+            Content="★"
+            Foreground="{StaticResource LightForeground}"
+            Tag="QuickButtons"
+            MouseRightButtonDown="Btn_SelectedFavorite_MouseRightButtonDown"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Add to Favorites" />
+                <Button
+            x:Name="Btn_SelectedRemoveFavorite"
+            Margin="0,67,223.4,0"
+            Content="☆"
+            Foreground="{StaticResource LightForeground}"
+            Tag="QuickButtons"
+            MouseRightButtonDown="Btn_SelectedRemoveFavorite_MouseRightButtonDown"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Remove from Favorites" />
+                <Button
+            x:Name="Btn_SelectedWishlist"
+            Margin="0,67,196.4,0"
+            Content="❤"
+            Foreground="Tomato"
+            Tag="QuickButtons"
+            MouseRightButtonDown="Btn_SelectedWishlist_MouseRightButtonDown"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Add to Wishlist" />
+                <Button
+            x:Name="Btn_SelectedRemoveWishlist"
+            Margin="0,67,169.4,0"
+            Content="💔"
+            Foreground="{StaticResource LightForeground}"
+            Tag="QuickButtons"
+            MouseRightButtonDown="Btn_SelectedRemoveWishlist_MouseRightButtonDown"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Remove from Wishlist" />
+                <Button
+            x:Name="Btn_SelectedBuy"
+            Margin="0,34,142.4,0"
+            Content="💳"
+            Tag="QuickButtons"
+            Foreground="Green"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Buy" />
+                <Button
+            x:Name="Btn_SelectedSell"
+            Margin="0,34,115.4,0"
+            Content="💶"
+            Tag="QuickButtons"
+            Foreground="Green"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Sell" />
+                <Button
+            x:Name="Btn_SelectedGiftlist"
+            Margin="0,67,142.4,0"
+            Content="🎁"
+            Tag="QuickButtons"
+            Foreground="Red"
+            MouseRightButtonDown="Btn_SelectedGiftlist_MouseRightButtonDown"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Add to Giftlist" />
+                <Button
+            x:Name="Btn_SelectedRemoveGiftlist"
+            Margin="0,67,115.4,0"
+            Content="🎁"
+            Tag="QuickButtons"
+            Foreground="{StaticResource LightForeground}"
+            MouseRightButtonDown="Btn_SelectedRemoveGiftlist_MouseRightButtonDown"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Remove from Giftlist" />
+                <Button
+            x:Name="Btn_SelectedSelectAll"
+            Margin="0,91,304.4,0"
+            Content="☑"
+            Tag="QuickButtons"
+            Foreground="{StaticResource LightForeground}"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Select All" />
+                <Button
+            x:Name="Btn_SelectedDeselectAll"
+            Margin="0,91,277.4,0"
+            Content="☐"
+            Tag="QuickButtons"
+            Foreground="{StaticResource LightForeground}"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Deselect All" />
+                <Button
+            x:Name="Btn_SelectedQuickBuy"
+            Margin="0,67,277.4,0"
+            Content="↯"
+            Tag="QuickButtons"
+            Foreground="White"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Quickbuy: Calculates the best profit and sends trade offers out" />
+                <Button
+            x:Name="Btn_SelectedRefresh"
+            Width="22"
+            Margin="0,10,210.4,0"
+            HorizontalAlignment="Right"
+            Content="↻"
+            FontWeight="Bold"
+            Foreground="#FF5353DA"
+            Tag="QuickButtons"
+            RenderTransformOrigin="0.518,0.5"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Refresh current tab" />
+                <Button
+            x:Name="Btn_SelectedRefreshPrices_All"
+            Width="22"
+            Margin="0,10,237.4,0"
+            HorizontalAlignment="Right"
+            Click="Btn_SelectedRefreshPrices_All_Click"
+            Content="💱"
+            Foreground="#FF5353DA"
+            Tag="QuickButtons"
+            ToolTip="Refresh All Prices">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource QuickButtons}" TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Settings.Container.IsRunning.Refresh_Prices}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Settings.Container.IsRunning.Refresh_Prices}" Value="False">
+                                    <Setter Property="IsEnabled" Value="True" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button
+            x:Name="Btn_SelectedMarkedForSell"
+            Margin="0,91,411.4,0"
+            Content="🔒"
+            Foreground="Orange"
+            Tag="QuickButtons"
+            MouseRightButtonDown="Btn_SelectedMarkedForSell_MouseRightButtonDown"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Mark to be used as weapon payment. (0.05 ref)" />
+                <Button
+            x:Name="Btn_SelectedUnMarkedForSell"
+            Margin="0,91,385.4,0"
+            Content="🔓"
+            Foreground="Cyan"
+            Tag="QuickButtons"
+            MouseRightButtonDown="Btn_SelectedUnMarkedForSell_MouseRightButtonDown"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Unmark for weapon payment usage." />
+                <Button
+            x:Name="Btn_SelectedLock"
+            Margin="0,91,358.4,0"
+            Content="🔒"
+            Foreground="Red"
+            Tag="QuickButtons"
+            MouseRightButtonDown="Btn_SelectedLock_MouseRightButtonDown"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Lock" />
+                <Button
+            x:Name="Btn_SelectedUnlock"
+            Margin="0,91,331.4,0"
+            Content="🔓"
+            Foreground="Green"
+            Tag="QuickButtons"
+            MouseRightButtonDown="Btn_SelectedUnlock_MouseRightButtonDown"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Unlock" />
+                <Button
+            x:Name="Btn_SelectedExpandCollapse"
+            Margin="0,91,438.4,0"
+            Content="☰"
+            Foreground="{StaticResource LightForeground}"
+            Tag="QuickButtons"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Expand/Collapse" />
+                <Button
+            x:Name="Btn_SelectedCancel"
+            Margin="0,34,169.4,0"
+            Content="✋"
+            Foreground="Red"
+            Tag="QuickButtons"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Cancel the selected offers" />
+                <Button
+            x:Name="Btn_SelectedRelist"
+            Margin="0,34,196.4,0"
+            Content="🔃"
+            Foreground="Blue"
+            Tag="QuickButtons"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Relist the selected listings/orders" />
+                <TextBox
+            x:Name="Txb_URL"
+            Height="23"
+            Margin="65,122,9.4,0"
+            VerticalAlignment="Top"
+            Style="{StaticResource TextBox_NonNumeric}"
+            TextChanged="Txb_URL_TextChanged"
+            TextWrapping="NoWrap" />
+                <ComboBox
+            x:Name="Cbx_GameList"
+            Width="157"
+            Height="19"
+            Margin="0,91,115.4,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            DropDownOpened="Cbx_GameList_DropDownOpened"
+            ItemsSource="{Binding GameList}"
+            SelectedIndex="{Binding Settings.Container.CurrentSelectedGame, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+            SelectionChanged="Cbx_GameList_SelectionChanged" />
+
+                <Border
+            Width="101"
+            Height="100"
+            Margin="0,10,9.6,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            BorderBrush="Black"
+            BorderThickness="1">
+                    <Grid>
+                        <Viewbox Stretch="Uniform">
+                            <Label Content="🎩"  FontFamily="{StaticResource HatFont}" />
+                        </Viewbox>
+                        <Image x:Name="Img_Product" />
+                    </Grid>
+                </Border>
+
+                <StatusBar
+            Height="24"
+            Margin="0,0,0,0"
+            VerticalAlignment="Bottom">
+                    <StatusBarItem DockPanel.Dock="Right">
+                        <TextBlock x:Name="Txbk_Sb_SaveTimeStamp" />
+                    </StatusBarItem>
+                    <StatusBarItem DockPanel.Dock="Right">
+                        <TextBlock
+                    x:Name="Txbk_Sb_Set"
+                    Text="Set"
+                    Visibility="Hidden" />
+                    </StatusBarItem>
+                    <StatusBarItem DockPanel.Dock="left">
+                        <ProgressBar
+                    x:Name="Sb_ProgressBar"
+                    Width="80"
+                    Height="18"
+                    Value="0" />
+                    </StatusBarItem>
+                    <StatusBarItem>
+                        <TextBlock x:Name="Txbk_Sb_Ready" Text="Ready" />
+                    </StatusBarItem>
+                </StatusBar>
+
+                <TabControl
+            x:Name="TabControl_Main"
+            Margin="0,150,0,24"
+            SelectionChanged="TabControl_Main_SelectionChanged">
+                    <TabItem x:Name="Tab_Prices">
+                        <TabItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Style>
+                                            <Style TargetType="{x:Type ColumnDefinition}">
+                                                <Setter Property="Width" Value="*" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Binding_Lv_Prices.Count}" Value="0">
+                                                        <Setter Property="Width" Value="0" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ColumnDefinition.Style>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Binding_Lv_Prices.Count, StringFormat={}{0:(##) }}" />
+                                <TextBlock
+                            Grid.Column="1"
+                            Foreground="Green"
+                            Text="💰"
+                            ToolTip="Prices" />
+                            </Grid>
+                        </TabItem.Header>
+                        <DataGrid x:Name="Lv_Prices">
+                            <DataGrid.Columns>
+                                <StaticResource ResourceKey="TempIndex" />
+                                <StaticResource ResourceKey="TempSelect" />
+                                <StaticResource ResourceKey="TempImage" />
+                                <StaticResource ResourceKey="TempName" />
+                                <StaticResource ResourceKey="TempQuality" />
+                                <StaticResource ResourceKey="TempLevel" />
+                                <StaticResource ResourceKey="TempSteamListings" />
+                                <StaticResource ResourceKey="TempPriceSteam" />
+                                <StaticResource ResourceKey="TempPriceBackpack" />
+                                <StaticResource ResourceKey="TempPriceSell" />
+                                <StaticResource ResourceKey="TempPriceSellAfterSteamTax" />
+                                <StaticResource ResourceKey="TempPriceProfit" />
+                                <StaticResource ResourceKey="TempPriceProfitEffectiveness" />
+                                <StaticResource ResourceKey="TempPriceSteam_Average" />
+                                <StaticResource ResourceKey="TempPriceBackpack_Trend" />
+                                <StaticResource ResourceKey="TempPriceSteam_Frequency" />
+                                <StaticResource ResourceKey="TempType" />
+                            </DataGrid.Columns>
+                            <DataGrid.RowDetailsTemplate>
+                                <StaticResource ResourceKey="TempDetails_Favorite" />
+                            </DataGrid.RowDetailsTemplate>
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem x:Name="Tab_Cart">
+                        <TabItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Style>
+                                            <Style TargetType="{x:Type ColumnDefinition}">
+                                                <Setter Property="Width" Value="*" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Binding_Lv_Cart.Count}" Value="0">
+                                                        <Setter Property="Width" Value="0" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ColumnDefinition.Style>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Binding_Lv_Cart.Count, StringFormat={}{0:(##) }}" />
+                                <TextBlock
+                            Grid.Column="1"
+                            FontFamily="Symbola"
+                            FontWeight="Bold"
+                            Foreground="Tomato"
+                            Text="🛒"
+                            ToolTip="Cart" />
+                            </Grid>
+                        </TabItem.Header>
+                        <DataGrid x:Name="Lv_Cart">
+                            <DataGrid.Columns>
+                                <StaticResource ResourceKey="TempIndex" />
+                                <StaticResource ResourceKey="TempSelect" />
+                                <StaticResource ResourceKey="TempImage" />
+                                <StaticResource ResourceKey="TempName" />
+                                <StaticResource ResourceKey="TempQuality" />
+                                <StaticResource ResourceKey="TempLevel" />
+                                <StaticResource ResourceKey="TempType" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem x:Name="Tab_Backpack">
+                        <TabItem.Header>
+                            <TextBlock
+                        FontWeight="Bold"
+                        Foreground="#FF399EF7"
+                        Text="tf"
+                        ToolTip="Backpack.tf Community Prices" />
+                        </TabItem.Header>
+                        <DataGrid
+                    x:Name="Lv_Backpack"
+                    FontWeight="Normal"
+                    Foreground="White">
+                            <DataGrid.Columns>
+                                <StaticResource ResourceKey="TempIndex" />
+                                <StaticResource ResourceKey="TempBackpack_Image" />
+                                <StaticResource ResourceKey="TempName" />
+
+                                <DataGridTemplateColumn
+                            Width="110"
+                            Header="Unique"
+                            SortMemberPath="Unique.Money">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ContentPresenter Content="{Binding Unique}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn
+                            Width="110"
+                            Header="Vintage"
+                            SortMemberPath="Vintage.Money">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ContentPresenter Content="{Binding Vintage}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn
+                            Width="110"
+                            Header="Genuine"
+                            SortMemberPath="Genuine.Money">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ContentPresenter Content="{Binding Genuine}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn
+                            Width="110"
+                            Header="Strange"
+                            SortMemberPath="Strange.Money">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ContentPresenter Content="{Binding Strange}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn
+                            Width="110"
+                            Header="Haunted"
+                            SortMemberPath="Haunted.Money">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ContentPresenter Content="{Binding Haunted}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn
+                            Width="110"
+                            Header="Collector's"
+                            SortMemberPath="Collectors.Money">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ContentPresenter Content="{Binding Collectors}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <!--<DataGridTemplateColumn Width="110"
+                                                Header="Best Profit"
+                                                SortMemberPath="BestProfit.Money">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ContentPresenter Content="{Binding BestProfit}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>-->
+                                <StaticResource ResourceKey="TempType" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem x:Name="Tab_Favorites">
+                        <TabItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Style>
+                                            <Style TargetType="{x:Type ColumnDefinition}">
+                                                <Setter Property="Width" Value="*" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Binding_Lv_Favorite.Count}" Value="0">
+                                                        <Setter Property="Width" Value="0" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ColumnDefinition.Style>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Binding_Lv_Favorite.Count, StringFormat={}{0:(##) }}" />
+                                <TextBlock
+                            Grid.Column="1"
+                            Foreground="{StaticResource LightForeground}"
+                            Text="★"
+                            ToolTip="Favorites" />
+                            </Grid>
+                        </TabItem.Header>
+                        <DataGrid x:Name="Lv_Favorite">
+                            <DataGrid.Columns>
+                                <StaticResource ResourceKey="TempIndex" />
+                                <StaticResource ResourceKey="TempSelect" />
+                                <StaticResource ResourceKey="TempImage" />
+                                <StaticResource ResourceKey="TempName" />
+                                <StaticResource ResourceKey="TempQuality" />
+                                <StaticResource ResourceKey="TempLevel" />
+                                <StaticResource ResourceKey="TempSteamListings" />
+                                <StaticResource ResourceKey="TempPriceSteam" />
+                                <StaticResource ResourceKey="TempPriceBackpack" />
+                                <StaticResource ResourceKey="TempPriceSell" />
+                                <StaticResource ResourceKey="TempPriceSellAfterSteamTax" />
+                                <StaticResource ResourceKey="TempPriceProfit" />
+                                <StaticResource ResourceKey="TempPriceProfitEffectiveness" />
+                                <StaticResource ResourceKey="TempPriceSteam_Average" />
+                                <StaticResource ResourceKey="TempPriceBackpack_Trend" />
+                                <StaticResource ResourceKey="TempPriceSteam_Frequency" />
+                                <StaticResource ResourceKey="TempType" />
+                            </DataGrid.Columns>
+                            <DataGrid.RowDetailsTemplate>
+                                <StaticResource ResourceKey="TempDetails_Favorite" />
+                            </DataGrid.RowDetailsTemplate>
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem x:Name="Tab_Keys">
+                        <TabItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Style>
+                                            <Style TargetType="{x:Type ColumnDefinition}">
+                                                <Setter Property="Width" Value="*" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Binding_Lv_Keys.Count}" Value="0">
+                                                        <Setter Property="Width" Value="0" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ColumnDefinition.Style>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Binding_Lv_Keys.Count, StringFormat={}{0:(##) }}" />
+                                <TextBlock
+                            Grid.Column="1"
+                            Foreground="Gold"
+                            Text="🔑"
+                            ToolTip="Keys" />
+                            </Grid>
+                        </TabItem.Header>
+                        <DataGrid x:Name="Lv_Keys">
+                            <DataGrid.Columns>
+                                <StaticResource ResourceKey="TempIndex" />
+                                <StaticResource ResourceKey="TempSelect" />
+                                <StaticResource ResourceKey="TempImage" />
+                                <StaticResource ResourceKey="TempName" />
+                                <StaticResource ResourceKey="TempCrate" />
+                                <StaticResource ResourceKey="TempPriceSteam" />
+                                <StaticResource ResourceKey="TempPriceBackpack" />
+                                <StaticResource ResourceKey="TempPriceSell" />
+                                <StaticResource ResourceKey="TempPriceSellAfterSteamTax" />
+                                <StaticResource ResourceKey="TempPriceProfit" />
+                                <StaticResource ResourceKey="TempPriceSteam_Average" />
+                                <StaticResource ResourceKey="TempPriceBackpack_Trend" />
+                                <StaticResource ResourceKey="TempPriceSteam_Frequency" />
+                            </DataGrid.Columns>
+                            <DataGrid.RowDetailsTemplate>
+                                <StaticResource ResourceKey="TempDetails_Favorite" />
+                            </DataGrid.RowDetailsTemplate>
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem x:Name="Tab_Inventory">
+                        <TabItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Style>
+                                            <Style TargetType="{x:Type ColumnDefinition}">
+                                                <Setter Property="Width" Value="*" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Binding_Lv_Inventory.Count}" Value="0">
+                                                        <Setter Property="Width" Value="0" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ColumnDefinition.Style>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Binding_Lv_Inventory.Count, StringFormat={}{0:(##) }}" />
+                                <TextBlock
+                            Grid.Column="1"
+                            Foreground="Brown"
+                            Text="📦"
+                            ToolTip="Inventory" />
+                            </Grid>
+                        </TabItem.Header>
+                        <DataGrid x:Name="Lv_Inventory">
+                            <DataGrid.Columns>
+                                <StaticResource ResourceKey="TempIndex" />
+                                <StaticResource ResourceKey="TempSelect" />
+                                <StaticResource ResourceKey="TempImage" />
+                                <StaticResource ResourceKey="TempName" />
+                                <StaticResource ResourceKey="TempQuality" />
+                                <StaticResource ResourceKey="TempLevel" />
+                                <StaticResource ResourceKey="TempSteamListings" />
+                                <StaticResource ResourceKey="TempPriceSteam" />
+                                <StaticResource ResourceKey="TempPriceBackpack" />
+                                <StaticResource ResourceKey="TempPriceSell" />
+                                <StaticResource ResourceKey="TempPriceSellAfterSteamTax" />
+                                <StaticResource ResourceKey="TempPriceProfit" />
+                                <StaticResource ResourceKey="TempPriceSteam_Average" />
+                                <StaticResource ResourceKey="TempPriceBackpack_Trend" />
+                                <StaticResource ResourceKey="TempPriceSteam_Frequency" />
+                                <StaticResource ResourceKey="TempType" />
+                                <StaticResource ResourceKey="TempPriceUnlockDate" />
+                            </DataGrid.Columns>
+                            <DataGrid.RowDetailsTemplate>
+                                <StaticResource ResourceKey="TempDetails_Inventory" />
+                            </DataGrid.RowDetailsTemplate>
+                            <DataGrid.GroupStyle>
+                                <GroupStyle ContainerStyle="{StaticResource TempGroupingStyle_Inventory}" />
+                            </DataGrid.GroupStyle>
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem x:Name="Tab_Listings">
+                        <TabItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Style>
+                                            <Style TargetType="{x:Type ColumnDefinition}">
+                                                <Setter Property="Width" Value="*" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Binding_Lv_Listings.Count}" Value="0">
+                                                        <Setter Property="Width" Value="0" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ColumnDefinition.Style>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Binding_Lv_Listings.Count, StringFormat={}{0:(##) }}" />
+                                <TextBlock
+                            Grid.Column="1"
+                            Foreground="Green"
+                            Text="📤"
+                            ToolTip="My Listings" />
+                            </Grid>
+                        </TabItem.Header>
+                        <DataGrid x:Name="Lv_Listings">
+                            <DataGrid.Columns>
+                                <StaticResource ResourceKey="TempIndex" />
+                                <StaticResource ResourceKey="TempSelect" />
+                                <StaticResource ResourceKey="TempImage" />
+                                <StaticResource ResourceKey="TempName" />
+                                <StaticResource ResourceKey="TempListingPriceMy" />
+                                <StaticResource ResourceKey="TempListingPriceSellAfterSteamTax" />
+                                <StaticResource ResourceKey="TempListingDate" />
+                                <StaticResource ResourceKey="TempListingGame" />
+                                <StaticResource ResourceKey="TempListingPriceRelistListingAt" />
+                            </DataGrid.Columns>
+                            <DataGrid.RowDetailsTemplate>
+                                <StaticResource ResourceKey="TempDetails_Inventory" />
+                            </DataGrid.RowDetailsTemplate>
+                            <DataGrid.GroupStyle>
+                                <GroupStyle ContainerStyle="{StaticResource TempGroupingStyle_Inventory}" />
+                            </DataGrid.GroupStyle>
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem x:Name="Tab_Orders">
+                        <TabItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Style>
+                                            <Style TargetType="{x:Type ColumnDefinition}">
+                                                <Setter Property="Width" Value="*" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Binding_Lv_Orders.Count}" Value="0">
+                                                        <Setter Property="Width" Value="0" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ColumnDefinition.Style>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Binding_Lv_Orders.Count, StringFormat={}{0:(##) }}" />
+                                <TextBlock
+                            Grid.Column="1"
+                            Foreground="CornflowerBlue"
+                            Text="📥"
+                            ToolTip="My Orders" />
+                            </Grid>
+                        </TabItem.Header>
+                        <DataGrid x:Name="Lv_Orders">
+                            <DataGrid.Columns>
+                                <StaticResource ResourceKey="TempIndex" />
+                                <StaticResource ResourceKey="TempSelect" />
+                                <StaticResource ResourceKey="TempImage" />
+                                <StaticResource ResourceKey="TempName" />
+                                <StaticResource ResourceKey="TempListingPriceOrder" />
+                                <StaticResource ResourceKey="TempListingQuantity" />
+                                <StaticResource ResourceKey="TempListingOrderTotalCost" />
+                                <StaticResource ResourceKey="TempListingGame" />
+                                <StaticResource ResourceKey="TempListingPriceRelistOrderAt" />
+                                <StaticResource ResourceKey="TempListingPriceRelistAmount" />
+                            </DataGrid.Columns>
+                            <DataGrid.RowDetailsTemplate>
+                                <StaticResource ResourceKey="TempDetails_Favorite" />
+                            </DataGrid.RowDetailsTemplate>
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem x:Name="Tab_UpForTrade">
+                        <TabItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Style>
+                                            <Style TargetType="{x:Type ColumnDefinition}">
+                                                <Setter Property="Width" Value="*" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Binding_Lv_UpForTrade.Count}" Value="0">
+                                                        <Setter Property="Width" Value="0" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ColumnDefinition.Style>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Binding_Lv_UpForTrade.Count, StringFormat={}{0:(##) }}" />
+                                <TextBlock
+                            Grid.Column="1"
+                            Foreground="MediumSlateBlue"
+                            Text="⇌"
+                            ToolTip="Items Up for Trade" />
+                            </Grid>
+                        </TabItem.Header>
+                        <DataGrid x:Name="Lv_UpForTrade">
+                            <DataGrid.Columns>
+                                <StaticResource ResourceKey="TempIndex" />
+                                <StaticResource ResourceKey="TempSelect" />
+                                <StaticResource ResourceKey="TempImageProfile" />
+                                <StaticResource ResourceKey="TempTraderName" />
+                                <StaticResource ResourceKey="TempDateInitiated" />
+                                <StaticResource ResourceKey="TempDateExpiration" />
+                                <StaticResource ResourceKey="TempTraderOnlineLast" />
+                                <StaticResource ResourceKey="TempState" />
+                            </DataGrid.Columns>
+                            <DataGrid.RowDetailsTemplate>
+                                <StaticResource ResourceKey="TempTradeItems" />
+                            </DataGrid.RowDetailsTemplate>
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem x:Name="Tab_Wishlist">
+                        <TabItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Style>
+                                            <Style TargetType="{x:Type ColumnDefinition}">
+                                                <Setter Property="Width" Value="*" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Binding_Lv_WishList.Count}" Value="0">
+                                                        <Setter Property="Width" Value="0" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ColumnDefinition.Style>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Binding_Lv_WishList.Count, StringFormat={}{0:(##) }}" />
+                                <TextBlock
+                            Grid.Column="1"
+                            Foreground="Tomato"
+                            Text="❤"
+                            ToolTip="Wishlist" />
+                            </Grid>
+                        </TabItem.Header>
+                        <DataGrid x:Name="Lv_WishList">
+                            <DataGrid.Columns>
+                                <StaticResource ResourceKey="TempIndex" />
+                                <StaticResource ResourceKey="TempSelect" />
+                                <StaticResource ResourceKey="TempImage" />
+                                <StaticResource ResourceKey="TempName" />
+                                <StaticResource ResourceKey="TempSelectableQuality" />
+                                <StaticResource ResourceKey="TempSelectableParticleEffects" />
+                                <StaticResource ResourceKey="TempSelectablePaints" />
+                                <StaticResource ResourceKey="TempSelectableLevel" />
+                                <StaticResource ResourceKey="TempSteamListings" />
+                                <StaticResource ResourceKey="TempPriceSteam" />
+                                <StaticResource ResourceKey="TempPriceBackpack" />
+                                <StaticResource ResourceKey="TempPriceSell" />
+                                <StaticResource ResourceKey="TempPriceSellAfterSteamTax" />
+                                <StaticResource ResourceKey="TempPriceProfit" />
+                                <StaticResource ResourceKey="TempPriceSteam_Average" />
+                                <StaticResource ResourceKey="TempPriceBackpack_Trend" />
+                                <StaticResource ResourceKey="TempPriceSteam_Frequency" />
+                                <StaticResource ResourceKey="TempType" />
+                                <StaticResource ResourceKey="TempHaveAmount" />
+                                <StaticResource ResourceKey="TempWantAmount" />
+                            </DataGrid.Columns>
+                            <DataGrid.RowDetailsTemplate>
+                                <StaticResource ResourceKey="TempDetails_Favorite" />
+                            </DataGrid.RowDetailsTemplate>
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem x:Name="Tab_Giftlist">
+                        <TabItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition>
+                                        <ColumnDefinition.Style>
+                                            <Style TargetType="{x:Type ColumnDefinition}">
+                                                <Setter Property="Width" Value="*" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Binding_Lv_GiftList.Count}" Value="0">
+                                                        <Setter Property="Width" Value="0" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ColumnDefinition.Style>
+                                    </ColumnDefinition>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Binding_Lv_GiftList.Count, StringFormat={}{0:(##) }}" />
+                                <TextBlock
+                            Grid.Column="1"
+                            Foreground="Red"
+                            Text="🎁 "
+                            ToolTip="Giftlist" />
+                            </Grid>
+                        </TabItem.Header>
+                        <DataGrid x:Name="Lv_GiftList">
+                            <DataGrid.Columns>
+                                <StaticResource ResourceKey="TempIndex" />
+                                <StaticResource ResourceKey="TempSelect" />
+                                <StaticResource ResourceKey="TempImage" />
+                                <StaticResource ResourceKey="TempName" />
+                                <StaticResource ResourceKey="TempSelectableQuality" />
+                                <StaticResource ResourceKey="TempSelectableParticleEffects" />
+                                <StaticResource ResourceKey="TempSelectablePaints" />
+                                <StaticResource ResourceKey="TempSelectableLevel" />
+                                <StaticResource ResourceKey="TempSteamListings" />
+                                <StaticResource ResourceKey="TempPriceSteam" />
+                                <StaticResource ResourceKey="TempPriceBackpack" />
+                                <StaticResource ResourceKey="TempPriceSell" />
+                                <StaticResource ResourceKey="TempPriceSellAfterSteamTax" />
+                                <StaticResource ResourceKey="TempPriceProfit" />
+                                <StaticResource ResourceKey="TempPriceSteam_Average" />
+                                <StaticResource ResourceKey="TempPriceBackpack_Trend" />
+                                <StaticResource ResourceKey="TempPriceSteam_Frequency" />
+                                <StaticResource ResourceKey="TempType" />
+                                <StaticResource ResourceKey="TempHaveAmount" />
+                                <StaticResource ResourceKey="TempWantAmount" />
+                                <StaticResource ResourceKey="TempGiftTo" />
+                            </DataGrid.Columns>
+                            <DataGrid.RowDetailsTemplate>
+                                <StaticResource ResourceKey="TempDetails_Favorite" />
+                            </DataGrid.RowDetailsTemplate>
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem x:Name="Tab_Settings">
+                        <TabItem.Header>
+                            <TextBlock
+                        Foreground="Orange"
+                        Text="🔧"
+                        ToolTip="Settings" />
+                        </TabItem.Header>
+                        <DataGrid x:Name="Lv_Settings">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Width="40" Header="Select">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox
+                                        VerticalAlignment="Center"
+                                        Checked="Settings_ChBx_Checked"
+                                        IsChecked="{Binding IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        IsThreeState="False"
+                                        Unchecked="Settings_ChBx_Checked">
+                                                <CheckBox.Style>
+                                                    <Style>
+                                                        <Setter Property="CheckBox.Visibility" Value="Visible" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding InputStyle}" Value="Button">
+                                                                <Setter Property="CheckBox.Visibility" Value="Hidden" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding InputStyle}" Value="String_NoCheckBox">
+                                                                <Setter Property="CheckBox.Visibility" Value="Hidden" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </CheckBox.Style>
+                                            </CheckBox>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="160" Header="Name">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" TextAlignment="Left" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="540" Header="Description">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock
+                                        Text="{Binding Description}"
+                                        TextAlignment="Left"
+                                        TextWrapping="Wrap" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="100" Header="Input">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <TextBox
+                                            x:Name="Txb_InputNumberChanged"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Input, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            TextAlignment="{Binding Path=TextAlignment}"
+                                            TextWrapping="NoWrap">
+                                                    <TextBox.Style>
+                                                        <Style BasedOn="{StaticResource TextBox_NonNumeric}" TargetType="{x:Type TextBox}">
+                                                            <Setter Property="Visibility" Value="Hidden" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding InputStyle}" Value="String">
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBox.Style>
+                                                </TextBox>
+                                                <TextBox
+                                            x:Name="Txb_InputStringChanged"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Input, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            TextAlignment="{Binding Path=TextAlignment}"
+                                            TextWrapping="NoWrap">
+                                                    <TextBox.Style>
+                                                        <Style BasedOn="{StaticResource TextBox_NonNumeric}" TargetType="{x:Type TextBox}">
+                                                            <Setter Property="Visibility" Value="Hidden" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding InputStyle}" Value="String_NoCheckBox">
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBox.Style>
+                                                </TextBox>
+                                                <Button
+                                            x:Name="Txb_InputButtonClicked"
+                                            Click="Txb_InputButtonClicked_Click"
+                                            Content="OK">
+                                                    <Button.Style>
+                                                        <Style>
+                                                            <Setter Property="Button.Visibility" Value="Hidden" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding InputStyle}" Value="Button">
+                                                                    <Setter Property="Button.Visibility" Value="Visible" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+                    <TabItem x:Name="Tab_Status">
+                        <TabItem.Header>
+                            <TextBlock
+                        Foreground="Indigo"
+                        Text="⚑"
+                        ToolTip="Status" />
+                        </TabItem.Header>
+                        <ListView
+                    x:Name="Lv_Status"
+                    HorizontalContentAlignment="Stretch"
+                    Background="LightGray">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel VerticalAlignment="Bottom" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBox
+                                Margin="0"
+                                Background="#FFACACAC"
+                                IsReadOnly="True"
+                                Text="{Binding Path=., Mode=OneWay}"
+                                TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                <ContentPresenter />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Border>
+    </DockPanel>
+</Window>

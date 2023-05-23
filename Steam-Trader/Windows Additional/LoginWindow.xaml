@@ -1,0 +1,60 @@
+﻿<Window
+    x:Class="LoginWindowForm"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SteamTrader"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Login"
+    Width="350"
+    Height="132"
+    Icon="{StaticResource WindowIcon}"
+    Loaded="Window_Loaded"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+    <Grid>
+        <TextBox
+            x:Name="Txb_Username"
+            Height="23"
+            Margin="81,13,9.8,0"
+            VerticalAlignment="Top"
+            Style="{StaticResource TextBox_NonNumeric}"
+            TabIndex="0"
+            TextWrapping="NoWrap" />
+        <PasswordBox
+            x:Name="Txb_Password"
+            Height="23"
+            Margin="81,41,9.8,0"
+            VerticalAlignment="Top"
+            PasswordChar="*"
+            TabIndex="10" />
+        <Label
+            Margin="10,13,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Username" />
+        <Label
+            Margin="10,39,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Password" />
+        <Button
+            x:Name="Btn_OK"
+            Width="75"
+            Height="19"
+            Margin="0,0,9.8,10.4"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Content="OK"
+            IsDefault="True"
+            TabIndex="20" />
+        <Button
+            x:Name="Btn_Cancel"
+            Width="75"
+            Margin="0,0,89.8,9.4"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Content="Cancel"
+            IsCancel="True" />
+    </Grid>
+</Window>

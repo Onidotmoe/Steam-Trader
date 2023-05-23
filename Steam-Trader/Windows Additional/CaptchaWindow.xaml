@@ -1,0 +1,49 @@
+﻿<Window
+    x:Class="CaptchaWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Captcha"
+    Width="240"
+    Height="150"
+    Icon="{StaticResource WindowIcon}"
+    Loaded="Window_Loaded"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+    <Grid>
+        <TextBox
+            x:Name="Txb_Captcha"
+            Height="23"
+            Margin="10,0,10.2,35"
+            VerticalAlignment="Bottom"
+            CharacterCasing="Upper"
+            Style="{StaticResource TextBox_NonNumeric}"
+            TabIndex="0"
+            TextWrapping="NoWrap" />
+        <Button
+            x:Name="Btn_OK"
+            Width="75"
+            Margin="0,0,10.2,10.4"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Content="OK"
+            IsDefault="True"
+            TabIndex="10" />
+        <Button
+            x:Name="Btn_Cancel"
+            Width="75"
+            Margin="0,0,90.2,10.4"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Content="Cancel"
+            IsCancel="True"
+            TabIndex="20" />
+        <Border
+            Margin="10,10,10,62"
+            BorderBrush="LightGray"
+            BorderThickness="1">
+            <Image x:Name="Img_Captcha" />
+        </Border>
+    </Grid>
+</Window>

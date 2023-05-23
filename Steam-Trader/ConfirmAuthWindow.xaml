@@ -1,0 +1,151 @@
+﻿<Window
+    x:Class="ConfirmAuthWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SteamTrader"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Authentication App"
+    Width="680"
+    Height="480"
+    MinWidth="280"
+    Closing="Window_Closing"
+    Icon="{StaticResource WindowIcon}"
+    Loaded="Window_Loaded"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resource Directory.xaml" />
+                <ResourceDictionary />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <TabControl x:Name="TabControl_Main" Margin="0,100,0,0">
+            <TabItem x:Name="Tab_Sent" Header="Sent">
+                <DataGrid x:Name="Lv_Sent">
+                    <DataGrid.Columns>
+                        <StaticResource ResourceKey="TempIndex" />
+                        <StaticResource ResourceKey="TempSelect" />
+                        <StaticResource ResourceKey="TempImageProfile" />
+                        <StaticResource ResourceKey="TempTraderName" />
+                        <StaticResource ResourceKey="TempDateInitiated" />
+                        <StaticResource ResourceKey="TempDateExpiration" />
+                    </DataGrid.Columns>
+                    <DataGrid.RowDetailsTemplate>
+                        <StaticResource ResourceKey="TempTradeItems" />
+                    </DataGrid.RowDetailsTemplate>
+                </DataGrid>
+            </TabItem>
+            <TabItem x:Name="Tab_Incoming" Header="Incoming">
+                <DataGrid x:Name="Lv_Incoming">
+                    <DataGrid.Columns>
+                        <StaticResource ResourceKey="TempIndex" />
+                        <StaticResource ResourceKey="TempSelect" />
+                        <StaticResource ResourceKey="TempImageProfile" />
+                        <StaticResource ResourceKey="TempTraderName" />
+                        <StaticResource ResourceKey="TempDateInitiated" />
+                        <StaticResource ResourceKey="TempDateExpiration" />
+                    </DataGrid.Columns>
+                    <DataGrid.RowDetailsTemplate>
+                        <StaticResource ResourceKey="TempTradeItems" />
+                    </DataGrid.RowDetailsTemplate>
+                </DataGrid>
+            </TabItem>
+            <TabItem x:Name="Tab_History" Header="Market History">
+                <DataGrid x:Name="Lv_History">
+                    <DataGrid.Columns>
+                        <StaticResource ResourceKey="TempIndex" />
+                        <StaticResource ResourceKey="TempSelect" />
+                        <StaticResource ResourceKey="TempImageProfile" />
+                        <StaticResource ResourceKey="TempTraderName" />
+                        <StaticResource ResourceKey="TempDateInitiated" />
+                        <StaticResource ResourceKey="TempDateExpiration" />
+                    </DataGrid.Columns>
+                    <DataGrid.RowDetailsTemplate>
+                        <StaticResource ResourceKey="TempTradeItems" />
+                    </DataGrid.RowDetailsTemplate>
+                </DataGrid>
+            </TabItem>
+            <TabItem x:Name="Tab_History_Trades" Header="Trade History">
+                <DataGrid x:Name="Lv_History_Trades">
+                    <DataGrid.Columns>
+                        <StaticResource ResourceKey="TempIndex" />
+                        <StaticResource ResourceKey="TempSelect" />
+                        <StaticResource ResourceKey="TempImageProfile" />
+                        <StaticResource ResourceKey="TempTraderName" />
+                        <StaticResource ResourceKey="TempDateInitiated" />
+                        <StaticResource ResourceKey="TempDateExpiration" />
+                        <StaticResource ResourceKey="TempTraderOnlineLast" />
+                        <StaticResource ResourceKey="TempState" />
+                    </DataGrid.Columns>
+                    <DataGrid.RowDetailsTemplate>
+                        <StaticResource ResourceKey="TempTradeItems" />
+                    </DataGrid.RowDetailsTemplate>
+                </DataGrid>
+            </TabItem>
+            <TabItem x:Name="Tab_Auth_Codes" Header="Auth Codes">
+                <DataGrid x:Name="Lv_Auth_Codes">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="160" Header="User" />
+                        <DataGridTextColumn Width="100" Header="Code" />
+                        <DataGridTextColumn Width="120" Header="Expires In" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+        <Button
+            x:Name="Btn_Accept"
+            Width="75"
+            Margin="37,41,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Click="Btn_Accept_Click"
+            Content="Accept" />
+        <Button
+            x:Name="Btn_Deny"
+            Width="75"
+            Margin="0,41,9.6,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Click="Btn_Deny_Click"
+            Content="Deny" />
+        <Button
+            x:Name="Btn_Refresh"
+            Width="22"
+            Margin="10,41,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Click="Btn_Refresh_Click"
+            Content="↻"
+            FontWeight="Bold"
+            Foreground="#FF5353DA"
+            RenderTransformOrigin="0.518,0.5"
+            Style="{StaticResource QuickButtons}"
+            ToolTip="Refresh current tab" />
+        <Label
+            Margin="5,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Content="Refresh Interval : " />
+        <TextBox
+            x:Name="Txb_RefreshInterval"
+            Width="60"
+            Height="23"
+            Margin="106,13,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            TextWrapping="NoWrap" />
+        <CheckBox
+            x:Name="Chx_AutoRefresh"
+            Margin="171,16,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Checked="Chx_AutoRefresh_Checked"
+            Content="Auto Refresh" />
+    </Grid>
+</Window>

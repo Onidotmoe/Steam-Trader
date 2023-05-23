@@ -1,0 +1,123 @@
+﻿<Window
+    x:Class="ChangeUserWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SteamTrader"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Change User"
+    Width="350"
+    Height="400"
+    Icon="{StaticResource WindowIcon}"
+    Loaded="Window_Loaded"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resource Directory.xaml" />
+                <ResourceDictionary>
+
+                    <DataGridTemplateColumn
+                        x:Key="TempUserName"
+                        Width="{StaticResource Width_TempName}"
+                        x:Shared="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <Hyperlink NavigateUri="{Binding Link}" RequestNavigate="Hyperlink_RequestNavigate">
+                                        <TextBlock Text="{Binding AccountName}" />
+                                    </Hyperlink>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn
+                        x:Key="TempUserImage"
+                        Width="{StaticResource Width_TempImage}"
+                        x:Shared="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border
+                                    Background="#3c352e"
+                                    BorderBrush="#898989"
+                                    BorderThickness="2">
+                                    <Viewbox Stretch="Uniform">
+                                        <Grid>
+                                            <Image Source="{Binding ImageSource, Converter={StaticResource NullImageConverter}}" Stretch="Uniform" />
+                                            <Label Content="👤" Foreground="Gray">
+                                                <Label.Style>
+                                                    <Style TargetType="{x:Type Label}">
+                                                        <Setter Property="Visibility" Value="Hidden" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ImageSource}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Label.Style>
+                                            </Label>
+                                        </Grid>
+                                    </Viewbox>
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn
+                        x:Key="TempUserWalletBalance"
+                        Width="60"
+                        x:Shared="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom"
+                                    Text="{Binding WalletBalance}"
+                                    TextAlignment="Right" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <DataGrid
+            x:Name="Users_DataGrid"
+            Margin="0,0,0,35"
+            DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Users}"
+            HeadersVisibility="None"
+            ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Users}"
+            ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <StaticResource ResourceKey="TempSelect" />
+                <StaticResource ResourceKey="TempUserImage" />
+                <StaticResource ResourceKey="TempUserName" />
+                <StaticResource ResourceKey="TempUserWalletBalance" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button
+            x:Name="Btn_OK"
+            Width="75"
+            Height="19"
+            Margin="0,0,9.6,10.4"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Content="OK"
+            IsDefault="True"
+            TabIndex="20" />
+        <Button
+            x:Name="Btn_Cancel"
+            Width="75"
+            Height="19"
+            Margin="0,0,89.6,9.4"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Content="Cancel"
+            IsCancel="True" />
+    </Grid>
+</Window>

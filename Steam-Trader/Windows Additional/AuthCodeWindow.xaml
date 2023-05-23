@@ -1,0 +1,43 @@
+﻿<Window
+    x:Class="AuthCodeWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Authorization Code Required"
+    Width="250"
+    Height="100"
+    Icon="{StaticResource WindowIcon}"
+    Loaded="Window_Loaded"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+    <Grid>
+        <TextBox
+            x:Name="Txb_AuthCode"
+            Height="23"
+            Margin="10,10,9.6,0"
+            VerticalAlignment="Top"
+            CharacterCasing="Upper"
+            Style="{StaticResource TextBox_NonNumeric}"
+            TabIndex="0"
+            TextWrapping="NoWrap" />
+        <Button
+            x:Name="Btn_OK"
+            Width="75"
+            Margin="0,0,10.2,10.4"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Content="OK"
+            IsDefault="True"
+            TabIndex="10" />
+        <Button
+            x:Name="Btn_Cancel"
+            Width="75"
+            Margin="0,0,90.2,10.4"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Content="Cancel"
+            IsCancel="True"
+            TabIndex="20" />
+    </Grid>
+</Window>

@@ -1,0 +1,2883 @@
+﻿<ResourceDictionary
+    x:Class="ResourceDirectory"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:SteamTrader"
+    xmlns:Backpack="clr-namespace:SteamTrader.GUI.Backpack">
+
+    <local:NullValueConverter x:Key="NullValueConverter" />
+    <local:NullImageConverter x:Key="NullImageConverter" />
+    <local:TimeUntilConverter x:Key="TimeUntilConverter" />
+    <local:GroupSizeCheckConverter x:Key="GroupSizeCheckConverter" />
+
+    <AlternationConverter x:Key="GroupHeaderBackgroundConverter">
+        <SolidColorBrush>#292929</SolidColorBrush>
+        <SolidColorBrush>#FF1B1B1C</SolidColorBrush>
+    </AlternationConverter>
+
+    <BitmapImage x:Key="WindowIcon" UriSource="pack://application:,,,/Resources/Steam.ico" />
+
+    <DataGridLength x:Key="Width_TempIndex">55</DataGridLength>
+    <DataGridLength x:Key="Width_TempSelect">55</DataGridLength>
+    <DataGridLength x:Key="Width_TempImage">55</DataGridLength>
+    <DataGridLength x:Key="Width_TempName">165</DataGridLength>
+    <DataGridLength x:Key="Width_TempQuality">60</DataGridLength>
+    <DataGridLength x:Key="Width_TempLevel">45</DataGridLength>
+    <DataGridLength x:Key="Width_TempFrequency">75</DataGridLength>
+    <DataGridLength x:Key="Width_TempType">110</DataGridLength>
+    <DataGridLength x:Key="Width_TempCrate">120</DataGridLength>
+    <DataGridLength x:Key="Width_TempPriceMy">65</DataGridLength>
+    <DataGridLength x:Key="Width_TempPriceTheir">75</DataGridLength>
+    <DataGridLength x:Key="Width_TempPriceStore">50</DataGridLength>
+    <DataGridLength x:Key="Width_TempPriceSell">50</DataGridLength>
+    <DataGridLength x:Key="Width_TempPriceProfit">50</DataGridLength>
+    <DataGridLength x:Key="Width_TempPriceSteam">60</DataGridLength>
+    <DataGridLength x:Key="Width_TempPriceSteamAverage">70</DataGridLength>
+    <DataGridLength x:Key="Width_TempPriceSteamListings">60</DataGridLength>
+    <DataGridLength x:Key="Width_TempPriceSteam_Frequency">70</DataGridLength>
+    <DataGridLength x:Key="Width_TempPriceScrapTF">50</DataGridLength>
+    <DataGridLength x:Key="Width_TempPriceBackpack">50</DataGridLength>
+    <DataGridLength x:Key="Width_TempPriceUnlockDate">115</DataGridLength>
+    <DataGridLength x:Key="Width_TempPriceBackpack_Trend">50</DataGridLength>
+    <DataGridLength x:Key="Width_TempPriceSellAfterSteamTax">90</DataGridLength>
+    <DataGridLength x:Key="Width_TempHaveAmount">55</DataGridLength>
+    <DataGridLength x:Key="Width_TempWantAmount">55</DataGridLength>
+    <DataGridLength x:Key="Width_TempGiftTo">80</DataGridLength>
+    <DataGridLength x:Key="Width_TempImageProfile">55</DataGridLength>
+    <DataGridLength x:Key="Width_TempTraderName">220</DataGridLength>
+    <DataGridLength x:Key="Width_TempDateInitiated">120</DataGridLength>
+    <DataGridLength x:Key="Width_TempDateExpiration">120</DataGridLength>
+    <DataGridLength x:Key="Width_TempStatus">80</DataGridLength>
+    <DataGridLength x:Key="Width_TempState">160</DataGridLength>
+    <DataGridLength x:Key="Width_TempKeys">80</DataGridLength>
+    <DataGridLength x:Key="Width_TempTraderOnlineLast">120</DataGridLength>
+    <FontFamily x:Key="HatFont">pack://application:,,,/Resources/#Symbola</FontFamily>
+
+    <SolidColorBrush x:Key="AlternativeIndex_0" Color="#292929" />
+    <SolidColorBrush x:Key="AlternativeIndex_1" Color="#FF1B1B1C" />
+    <SolidColorBrush x:Key="Pinkish" Color="#B5837D" />
+    <SolidColorBrush x:Key="DarkPinkish" Color="#866360" />
+    <SolidColorBrush x:Key="LightPinkish" Color="#D29993" />
+    <SolidColorBrush x:Key="LightBackground" Color="#505050" />
+    <SolidColorBrush x:Key="DarkBackground" Color="#1E1E1E" />
+    <SolidColorBrush x:Key="LightForeground" Color="#F1F1F1" />
+    <SolidColorBrush x:Key="DarkerAquamarine" Color="#52A88B" />
+    <SolidColorBrush x:Key="DarkGreen" Color="#099F17" />
+    <SolidColorBrush x:Key="DarkerGreen" Color="#05480B" />
+
+    <Style TargetType="{x:Type ToolTip}">
+        <Setter Property="Background" Value="{StaticResource DarkBackground}" />
+    </Style>
+
+    <Style x:Key="Theme" TargetType="{x:Type FrameworkElement}">
+        <Setter Property="Control.Background" Value="{StaticResource DarkBackground}" />
+    </Style>
+
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource Theme}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                        </ContentPresenter>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource LightBackground}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="Black" />
+                            <Setter Property="Foreground" Value="{StaticResource LightBackground}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Window}" BasedOn="{StaticResource Theme}">
+        <Setter Property="FontFamily" Value="Segoe UI Symbol" />
+        <Setter Property="Control.Background" Value="{StaticResource DarkBackground}" />
+    </Style>
+    <Style TargetType="local:MainWindow" BasedOn="{StaticResource {x:Type Window}}" />
+    <Style TargetType="{x:Type StatusBar}" BasedOn="{StaticResource Theme}" />
+    <Style TargetType="{x:Type ProgressBar}" BasedOn="{StaticResource Theme}" />
+    <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource Theme}" />
+    <Style TargetType="{x:Type TabControl}" BasedOn="{StaticResource Theme}" />
+    <Style TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource Theme}">
+        <Setter Property="Background" Value="#3E3E42" />
+        <Setter Property="BorderBrush" Value="#3E3E42" />
+    </Style>
+
+    <Style TargetType="{x:Type Border}" BasedOn="{StaticResource Theme}">
+        <Setter Property="TextBlock.Background" Value="#292929" />
+    </Style>
+
+    <Style TargetType="{x:Type ColumnDefinition}">
+        <Setter Property="TextBlock.Foreground" Value="{StaticResource LightForeground}" />
+        <Setter Property="TextBlock.Background" Value="{StaticResource DarkBackground}" />
+    </Style>
+
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource Theme}">
+        <Setter Property="Foreground" Value="{StaticResource LightForeground}" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <EventSetter Event="TextChanged" Handler="Txb_TextChanged" />
+    </Style>
+    <Style x:Key="QuickButtons" TargetType="{x:Type Button}" BasedOn="{StaticResource Theme}">
+        <Setter Property="Width" Value="22" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource LightBackground}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="Black" />
+                            <Setter Property="Foreground" Value="{StaticResource LightBackground}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="TextBox_NonNumeric" TargetType="{x:Type TextBox}" BasedOn="{StaticResource Theme}">
+        <Setter Property="Foreground" Value="{StaticResource LightForeground}" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+    </Style>
+
+    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource Theme}">
+        <Setter Property="TextAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type Control}}}" Value="{x:Null}">
+                <Setter Property="Foreground" Value="{StaticResource LightForeground}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type ItemsPresenter}" BasedOn="{StaticResource Theme}">
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True" />
+        <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling" />
+    </Style>
+
+    <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource Theme}">
+        <Setter Property="EnableRowVirtualization" Value="True" />
+        <Setter Property="EnableColumnVirtualization" Value="True" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />
+        <Setter Property="VirtualizingStackPanel.IsVirtualizingWhenGrouping" Value="True" />
+        <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling" />
+        <Setter Property="VirtualizingStackPanel.ScrollUnit" Value="Item" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="CanUserSortColumns" Value="True" />
+        <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="True" />
+        <Setter Property="CanUserAddRows" Value="False" />
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="HorizontalGridLinesBrush" Value="#FF999999" />
+        <Setter Property="VerticalGridLinesBrush" Value="#FF999999" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Visible" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="SelectionMode" Value="Extended" />
+        <Setter Property="IsSynchronizedWithCurrentItem" Value="True" />
+        <Setter Property="AlternationCount" Value="2" />
+        <Setter Property="HeadersVisibility" Value="Column" />
+        <Setter Property="RowDetailsVisibilityMode" Value="Collapsed" />
+        <Setter Property="SelectionUnit" Value="FullRow" />
+        <EventSetter Event="SelectionChanged" Handler="DataGrid_SelectionChanged" />
+        <EventSetter Event="Loaded" Handler="DataGrid_Loaded" />
+        <EventSetter Event="Unloaded" Handler="DataGrid_Unloaded" />
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource Theme}">
+                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="DataGridRow_PreviewMouseLeftButtonDown" />
+                    <EventSetter Event="MouseDoubleClick" Handler="DataGridRow_MouseDoubleClick" />
+                    <Style.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                            <Setter Property="Background" Value="{StaticResource AlternativeIndex_0}" />
+                        </Trigger>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                            <Setter Property="Background" Value="{StaticResource AlternativeIndex_1}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{StaticResource LightBackground}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="CellStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource Theme}">
+                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="DataGridCell_PreviewMouseLeftButtonDown" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                    <Style.Triggers>
+                        <Trigger Property="DataGridCell.IsSelected" Value="True">
+                            <Setter Property="BorderBrush">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="Transparent" />
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="Transparent" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ColumnHeaderStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource Theme}">
+                    <Setter Property="Foreground" Value="{StaticResource LightForeground}" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <!--<Style.Resources>
+            <Style TargetType="{x:Type ScrollBar}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Grid Background="Orange">
+                                <ItemsControl Background="Black"
+                                              IsHitTestVisible="False"
+                                              ItemsSource="{Binding}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Line Stretch="Uniform"
+                                                  Stroke="Pink"
+                                                  StrokeThickness="1"
+                                                  Visibility="Visible"
+                                                  X1="1">
+                                                <Line.Style>
+                                                    <Style>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                                <Setter Property="Line.Visibility" Value="Hidden" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Line.Style>
+                                            </Line>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.Resources>-->
+    </Style>
+
+    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource Theme}">
+        <EventSetter Event="Loaded" Handler="ComboBox_Loaded" />
+        <Setter Property="AlternationCount" Value="2" />
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource Theme}">
+                    <Style.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                            <Setter Property="Background" Value="{StaticResource AlternativeIndex_0}" />
+                            <Setter Property="BorderBrush" Value="#FFE5E5E5" />
+                        </Trigger>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                            <Setter Property="Background" Value="{StaticResource AlternativeIndex_1}" />
+                            <Setter Property="BorderBrush" Value="#FFEEEEEE" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{StaticResource LightBackground}" />
+                            <Setter Property="BorderBrush" Value="#FFC9F9F1" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Hyperlink}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="SteelBlue" />
+            </Trigger>
+            <Trigger Property="NavigateUri" Value="{x:Null}">
+                <Setter Property="Foreground" Value="{StaticResource LightForeground}" />
+                <Setter Property="Cursor" Value="Arrow" />
+            </Trigger>
+        </Style.Triggers>
+        <Setter Property="Foreground" Value="{StaticResource LightForeground}" />
+        <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+    </Style>
+
+    <Style x:Key="Hyperlink_White">
+        <Style.Triggers>
+            <Trigger Property="Hyperlink.IsMouseOver" Value="True">
+                <Setter Property="Hyperlink.Foreground" Value="SteelBlue" />
+            </Trigger>
+            <Trigger Property="Hyperlink.NavigateUri" Value="{x:Null}">
+                <Setter Property="Hyperlink.Foreground" Value="White" />
+                <Setter Property="Hyperlink.Cursor" Value="Arrow" />
+            </Trigger>
+        </Style.Triggers>
+        <Setter Property="Hyperlink.Foreground" Value="White" />
+        <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
+    </Style>
+
+    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource Theme}">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Content" Value="" />
+        <Setter Property="Foreground" Value="{StaticResource LightForeground}" />
+    </Style>
+
+    <Style x:Key="ListViewToolTip" TargetType="{x:Type ToolTip}">
+        <Setter Property="ToolTip.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToolTip}">
+                    <Border BorderThickness="3" Style="{StaticResource TempQualityBorder}">
+                        <ListView
+                            Width="250"
+                            Background="{StaticResource DarkBackground}"
+                            BorderThickness="0"
+                            ItemsSource="{Binding Description}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock
+                                            Foreground="{Binding Path=Second, Converter={StaticResource NullValueConverter}, FallbackValue={StaticResource LightForeground}}"
+                                            Text="{Binding First}"
+                                            TextAlignment="Center"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Description, Converter={StaticResource NullValueConverter}}" Value="{x:Null}">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ListViewToolTip_PriceUnlockDate">
+        <Setter Property="ToolTip.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToolTip}">
+                    <Border BorderBrush="Black" BorderThickness="1">
+                        <TextBlock
+                            Width="200"
+                            Background="#FF494949"
+                            Foreground="#FFD99926"
+                            Text="{Binding Price.UnlockDate, Converter={StaticResource TimeUntilConverter}}"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Price.UnlockDate, Converter={StaticResource TimeUntilConverter}}" Value="{x:Null}">
+                <Setter Property="StackPanel.Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <DataGridTemplateColumn
+        x:Key="TempSelect"
+        Width="{StaticResource Width_TempSelect}"
+        x:Shared="False"
+        Header="Select"
+        SortMemberPath="IsSelected">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate x:Name="TempSelectDataTemplate">
+                <ToggleButton IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MouseRightButtonDown="TB_RightClick">
+                    <ToggleButton.Style>
+                        <Style TargetType="{x:Type ToggleButton}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <Border
+                                            x:Name="TB_Border"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            Background="Transparent">
+                                            <Viewbox Height="50">
+                                                <Label x:Name="TB_Label" Background="Transparent" Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}, Path=Content}" />
+                                            </Viewbox>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="ToggleButton.IsChecked" Value="True">
+                                                <Setter TargetName="TB_Label" Property="Label.Content" Value="✖" />
+                                                <Setter TargetName="TB_Border" Property="Border.Background" Value="LightGreen" />
+                                            </Trigger>
+                                            <Trigger Property="ToggleButton.IsMouseOver" Value="True">
+                                                <Setter TargetName="TB_Border" Property="Border.Background" Value="LightBlue" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Price.SellSuccess}" Value="1">
+                                    <Setter Property="BorderBrush" Value="Green" />
+                                    <Setter Property="BorderThickness" Value="2" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Price.SellSuccess}" Value="-1">
+                                    <Setter Property="BorderBrush" Value="{StaticResource Pinkish}" />
+                                    <Setter Property="BorderThickness" Value="2" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempSelect_Small"
+        Width="15"
+        x:Shared="False"
+        Header="Select"
+        SortMemberPath="IsSelected">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate x:Name="TempSelectDataTemplate">
+                <ToggleButton IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <ToggleButton.Style>
+                        <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource TempSelectDataTemplate}" />
+                    </ToggleButton.Style>
+                </ToggleButton>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempSelect_Small_DontBuyWarnings"
+        Width="25"
+        x:Shared="False"
+        Header="Don't Buy Warnings"
+        SortMemberPath="DontBuyWarnings">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <ToggleButton IsChecked="{Binding DontBuyWarnings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <ToggleButton.Style>
+                        <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource TempSelectDataTemplate}" />
+                    </ToggleButton.Style>
+                </ToggleButton>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <Style x:Key="TempSelectDataTemplate" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border
+                        x:Name="TB_Border"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent">
+                        <Viewbox Height="15">
+                            <Label x:Name="TB_Label" Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}, Path=Content}" />
+                        </Viewbox>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ToggleButton.IsChecked" Value="True">
+                            <Setter TargetName="TB_Label" Property="Label.Content" Value="✖" />
+                            <Setter TargetName="TB_Border" Property="Border.Background" Value="LightGreen" />
+                        </Trigger>
+                        <Trigger Property="ToggleButton.IsMouseOver" Value="True">
+                            <Setter TargetName="TB_Border" Property="Border.Background" Value="LightBlue" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="TempQualityBorder" TargetType="{x:Type Border}">
+        <Setter Property="BorderBrush" Value="Gray" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Normal">
+                <Setter Property="BorderBrush" Value="#B2B2B2" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Unique">
+                <Setter Property="BorderBrush" Value="#FFD700" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Vintage">
+                <Setter Property="BorderBrush" Value="#476291" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Genuine">
+                <Setter Property="BorderBrush" Value="#4D7455" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Strange">
+                <Setter Property="BorderBrush" Value="#CF6A32" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Unusual">
+                <Setter Property="BorderBrush" Value="#8650AC" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Haunted">
+                <Setter Property="BorderBrush" Value="#38F3AB" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Collector's">
+                <Setter Property="BorderBrush" Value="#AA0000" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Decorated">
+                <Setter Property="BorderBrush" Value="#FAFAFA" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Community">
+                <Setter Property="BorderBrush" Value="#70B04A" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Self-Made">
+                <Setter Property="BorderBrush" Value="#70B04A" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Valve">
+                <Setter Property="BorderBrush" Value="#A50F79" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <DataGridTemplateColumn
+        x:Key="TempImage"
+        Width="{StaticResource Width_TempImage}"
+        x:Shared="False"
+        CanUserSort="False"
+        Header="Image">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <Border
+                    Background="#3c352e"
+                    BorderThickness="2"
+                    Style="{StaticResource TempQualityBorder}">
+                    <Grid>
+                        <Image Source="{Binding ImageSource, Converter={StaticResource NullImageConverter}}" Stretch="Uniform">
+                            <ToolTipService.ToolTip>
+                                <ToolTip Style="{StaticResource ListViewToolTip}" />
+                            </ToolTipService.ToolTip>
+                        </Image>
+                        <Label Content="🎩" Foreground="Gray" FontFamily="{StaticResource HatFont}">
+                            <Label.Style>
+                                <Style TargetType="{x:Type Label}">
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ImageSource}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Content="🔒"
+                                Tag="MacroIcon"
+                                FontSize="15">
+                                <Label.Style>
+                                    <Style TargetType="{x:Type Label}">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                        <Setter Property="Foreground" Value="Orange" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding MarkedForSell}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Content="🔒"
+                                Tag="MacroIcon"
+                                FontSize="15"
+                                IsHitTestVisible="False">
+                                <Label.Style>
+                                    <Style TargetType="{x:Type Label}">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                        <Setter Property="Foreground" Value="Red" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Locked}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                                <Setter Property="Foreground" Value="Red" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding InTransit}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                                <Setter Property="Foreground" Value="Blue" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                            <Grid Grid.Row="1" Grid.Column="0">
+                                <Rectangle Grid.Column="0">
+                                    <Rectangle.Style>
+                                        <Style TargetType="{x:Type Rectangle}">
+                                            <Setter Property="Fill" Value="{Binding Quality.Paint.Color[0]}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Quality.Paint.Color}" Value="{x:Null}">
+                                                    <Setter Property="Fill" Value="{x:Null}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Rectangle.Style>
+                                </Rectangle>
+                                <Rectangle Grid.Column="1">
+                                    <Rectangle.Style>
+                                        <Style TargetType="{x:Type Rectangle}">
+                                            <Setter Property="Fill" Value="{Binding Quality.Paint.Color[0]}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Quality.Paint.Color}" Value="{x:Null}">
+                                                    <Setter Property="Fill" Value="{x:Null}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Quality.Paint.Color.Count}" Value="2">
+                                                    <Setter Property="Fill" Value="{Binding Quality.Paint.Color[1]}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Rectangle.Style>
+                                </Rectangle>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <Style x:Key="TempName_Label">
+        <Setter Property="Label.FontFamily" Value="Segoe UI Symbol" />
+        <Setter Property="Label.FontSize" Value="14" />
+        <Setter Property="Label.FontWeight" Value="Bold" />
+        <Setter Property="Label.Foreground" Value="DarkRed" />
+    </Style>
+
+    <DataGridTemplateColumn
+        x:Key="TempName"
+        Width="{StaticResource Width_TempName}"
+        x:Shared="False"
+        Header="Name"
+        SortMemberPath="Name">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <Grid>
+                    <StackPanel
+                        Grid.Row="1"
+                        Margin="-5,-3,0,0"
+                        Orientation="Horizontal">
+                        <Label Content="&#x1f396;">
+                            <Label.Style>
+                                <Style BasedOn="{StaticResource TempName_Label}">
+                                    <Setter Property="Label.Visibility" Value="Hidden" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Achievement}" Value="True">
+                                            <Setter Property="Label.Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        <Label Content="🚫" Tag="MacroIcon">
+                            <Label.Style>
+                                <Style BasedOn="{StaticResource TempName_Label}">
+                                    <Setter Property="Label.Visibility" Value="Hidden" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Tradable}" Value="False">
+                                            <Setter Property="Label.Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        <Label Content="🔨" Tag="MacroIcon">
+                            <Label.Style>
+                                <Style BasedOn="{StaticResource TempName_Label}">
+                                    <Setter Property="Label.Visibility" Value="Hidden" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding UsableInCrafting}" Value="False">
+                                            <Setter Property="Label.Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        <Label Content="💀" Tag="MacroIcon" ToolTip="{Binding Counter_Type}">
+                            <Label.Style>
+                                <Style BasedOn="{StaticResource TempName_Label}">
+                                    <Setter Property="Label.Visibility" Value="Visible" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Counter}" Value="0">
+                                            <Setter Property="Label.Visibility" Value="Hidden" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        <Label Content="{Binding Counter}" ToolTip="{Binding Counter_Type}">
+                            <Label.Style>
+                                <Style BasedOn="{StaticResource TempName_Label}">
+                                    <Setter Property="Label.Visibility" Value="Visible" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Counter}" Value="0">
+                                            <Setter Property="Label.Visibility" Value="Hidden" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                    </StackPanel>
+                    <TextBlock Grid.Row="2">
+                        <Hyperlink NavigateUri="{Binding WikiURL}" RequestNavigate="Hyperlink_RequestNavigate">
+                            <TextBlock Text="{Binding Name}" />
+                        </Hyperlink>
+                    </TextBlock>
+                </Grid>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempQuality"
+        Width="{StaticResource Width_TempQuality}"
+        x:Shared="False"
+        Header="Quality"
+        SortMemberPath="Quality.DisplayName">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock VerticalAlignment="Bottom" Text="{Binding Quality.DisplayName}">
+                    <TextBlock.Style>
+                        <Style>
+                            <Setter Property="TextBlock.Foreground" Value="{StaticResource LightForeground}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Normal">
+                                    <Setter Property="TextBlock.Foreground" Value="#B2B2B2" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Unique">
+                                    <Setter Property="TextBlock.Foreground" Value="#FFB1912E" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Vintage">
+                                    <Setter Property="TextBlock.Foreground" Value="#476291" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Genuine">
+                                    <Setter Property="TextBlock.Foreground" Value="#4D7455" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Strange">
+                                    <Setter Property="TextBlock.Foreground" Value="#CF6A32" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Unusual">
+                                    <Setter Property="TextBlock.Foreground" Value="#8650AC" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Haunted">
+                                    <Setter Property="TextBlock.Foreground" Value="#38F3AB" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Collector's">
+                                    <Setter Property="TextBlock.Foreground" Value="#AA0000" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Decorated">
+                                    <Setter Property="TextBlock.Foreground" Value="#FAFAFA" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Community">
+                                    <Setter Property="TextBlock.Foreground" Value="#70B04A" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Self-Made">
+                                    <Setter Property="TextBlock.Foreground" Value="#70B04A" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding Quality.DisplayName}" Value="Valve">
+                                    <Setter Property="TextBlock.Foreground" Value="#A50F79" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempSteamListings"
+        Width="{StaticResource Width_TempPriceSteamListings}"
+        x:Shared="False"
+        Header="Listings"
+        SortMemberPath="Price.Steam_Listings">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="{Binding HaveAmount}"
+                        TextAlignment="Left" />
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Text="{Binding Price.Steam_Listings_My}"
+                        TextAlignment="Right" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Text="{Binding Price.Steam_Listings}"
+                        TextAlignment="Right" />
+                </Grid>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempPriceSteam"
+        Width="{StaticResource Width_TempPriceSteam}"
+        x:Shared="False"
+        Header="Steam"
+        SortMemberPath="Price.Steam">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock TextAlignment="Right">
+                    <Hyperlink NavigateUri="{Binding Price.Url_Steam}" RequestNavigate="Hyperlink_RequestNavigate">
+                        <TextBlock Text="{Binding Price.Steam}" TextAlignment="Right">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                    <Setter Property="TextAlignment" Value="Left" />
+                                    <Setter Property="VerticalAlignment" Value="Bottom" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SteamObtained}" Value="2">
+                                            <Setter Property="Foreground" Value="Red" />
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                            <Setter Property="ToolTip" Value="Failed to get price from steam." />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Hyperlink>
+                </TextBlock>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempPriceSell"
+        Width="{StaticResource Width_TempPriceSell}"
+        x:Shared="False"
+        Header="Sell"
+        SortMemberPath="Price.Sell">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBox
+                    VerticalAlignment="Center"
+                    Text="{Binding Price.Sell, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.00}}"
+                    TextAlignment="Right">
+                    <TextBox.Style>
+                        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Price.SellHasError}" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource Pinkish}" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="ToolTip" Value="Price is incorrect." />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempPriceSellAfterSteamTax"
+        Width="{StaticResource Width_TempPriceSellAfterSteamTax}"
+        x:Shared="False"
+        Header="You Receive"
+        SortMemberPath="Price.SellAfterSteamTax">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBox
+                    VerticalAlignment="Center"
+                    Text="{Binding Price.SellAfterSteamTax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.00}}"
+                    TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempPriceProfit"
+        Width="{StaticResource Width_TempPriceProfit}"
+        x:Shared="False"
+        Header="Profit"
+        SortMemberPath="Price.ProfitPercentage">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.Style>
+                        <Style TargetType="{x:Type Grid}">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.ShowValuation, FallbackValue=local:MySettings.Default.ShowValuation}" Value="False" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Background" Value="Transparent" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Price.DealValuation}" Value="-1" />
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.ShowValuation, FallbackValue=local:MySettings.Default.ShowValuation}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Background" Value="{StaticResource LightPinkish}" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Price.DealValuation}" Value="1" />
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.ShowValuation, FallbackValue=local:MySettings.Default.ShowValuation}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Background" Value="{StaticResource DarkerAquamarine}" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Price.DealValuation}" Value="2" />
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.ShowValuation, FallbackValue=local:MySettings.Default.ShowValuation}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Background" Value="{StaticResource DarkerGreen}" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Price.DealValuation}" Value="3" />
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.ShowValuation, FallbackValue=local:MySettings.Default.ShowValuation}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Background" Value="{StaticResource DarkGreen}" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <TextBlock
+                        Grid.Row="0"
+                        VerticalAlignment="Bottom"
+                        Text="{Binding Price.ProfitPercentage, StringFormat={}{0:0.00}}"
+                        TextAlignment="Right" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Text="{Binding Price.Profit, StringFormat={}{0:0.00}}"
+                        TextAlignment="Right" />
+                </Grid>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+    <DataGridTemplateColumn
+        x:Key="TempPriceProfitEffectiveness"
+        Width="{StaticResource Width_TempPriceProfit}"
+        x:Shared="False"
+        Header="Effectiveness"
+        SortMemberPath="Price.ProfitEffectiveness">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock
+                    VerticalAlignment="Bottom"
+                    Text="{Binding Price.ProfitEffectiveness, StringFormat={}{0:0.00}}"
+                    TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempIndex"
+        Width="{StaticResource Width_TempIndex}"
+        x:Shared="False"
+        Header="Index"
+        SortMemberPath="Index">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBox
+                    VerticalAlignment="Center"
+                    Text="{Binding Index, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempLevel"
+        Width="{StaticResource Width_TempLevel}"
+        x:Shared="False"
+        Header="Level"
+        SortMemberPath="Level">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Level}" TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempSelectableLevel"
+        Width="{StaticResource Width_TempLevel}"
+        x:Shared="False"
+        Header="Level"
+        SortMemberPath="Level">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBox
+                    VerticalAlignment="Center"
+                    Text="{Binding Level, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+    <DataGridTemplateColumn
+        x:Key="TempSelectableQuality"
+        Width="120"
+        x:Shared="False"
+        Header="Quality"
+        SortMemberPath="Quality.Name">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <ComboBox
+                    VerticalAlignment="Center"
+                    ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=SelectQualities}"
+                    SelectedItem="{Binding Quality.Name, UpdateSourceTrigger=PropertyChanged}"
+                    SelectionChanged="Cbbx_SelectableQuality_SelectionChanged" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+    <DataGridTemplateColumn
+        x:Key="TempSelectableParticleEffects"
+        Width="120"
+        x:Shared="False"
+        Header="Particle Effect"
+        SortMemberPath="Quality.ParticleEffect.Name">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <ComboBox
+                    VerticalAlignment="Center"
+                    ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=SelectParticleEffects}"
+                    SelectedItem="{Binding Quality.ParticleEffect.Name, UpdateSourceTrigger=PropertyChanged}" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+    <DataGridTemplateColumn
+        x:Key="TempSelectablePaints"
+        Width="120"
+        x:Shared="False"
+        Header="Paint"
+        SortMemberPath="Quality.Paint.Name">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <ComboBox
+                    VerticalAlignment="Center"
+                    ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=SelectPaints}"
+                    SelectedItem="{Binding Quality.Paint.Name, UpdateSourceTrigger=PropertyChanged}" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempPriceSteam_Average"
+        Width="55"
+        x:Shared="False"
+        Header="Average"
+        SortMemberPath="Price.Steam_Average">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Text="{Binding Price.Backpack_Average, StringFormat={}{0:0.##}}"
+                        TextAlignment="Right" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Text="{Binding Price.Steam_Average, StringFormat={}{0:0.##}}"
+                        TextAlignment="Right" />
+                </Grid>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempPriceBackpack_Trend"
+        Width="{StaticResource Width_TempPriceBackpack_Trend}"
+        x:Shared="False"
+        Header="Trend"
+        SortMemberPath="Price.Backpack_Trend">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock
+                    Text="{Binding Price.Backpack_Trend, StringFormat={}{0:0.####################}}"
+                    TextAlignment="Right"
+                    TextTrimming="CharacterEllipsis" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempPriceSteam_Frequency"
+        Width="{StaticResource Width_TempPriceSteam_Frequency}"
+        x:Shared="False"
+        Header="Frequency"
+        SortMemberPath="Price.Steam_Frequency">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Price.Steam_Frequency}" TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempType"
+        Width="{StaticResource Width_TempType}"
+        x:Shared="False"
+        Header="Type"
+        SortMemberPath="Type">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Foreground="{StaticResource LightForeground}" Text="{Binding Type}" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempCrate"
+        Width="{StaticResource Width_TempCrate}"
+        x:Shared="False"
+        Header="Crate"
+        SortMemberPath="Crate">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Crate}" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempPriceScrapTF"
+        Width="{StaticResource Width_TempPriceScrapTF}"
+        x:Shared="False"
+        Header="tf"
+        SortMemberPath="Price.ScrapTF">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Price.ScrapTF}" TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempPriceBackpack"
+        Width="{StaticResource Width_TempPriceBackpack}"
+        x:Shared="False"
+        Header="BP"
+        SortMemberPath="Price.Backpack">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock TextAlignment="Right">
+                    <Hyperlink NavigateUri="{Binding Price.Url_Backpack}" RequestNavigate="Hyperlink_RequestNavigate">
+                        <TextBlock Text="{Binding Price.Backpack}" />
+                    </Hyperlink>
+                </TextBlock>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempPriceStore"
+        Width="{StaticResource Width_TempPriceStore}"
+        x:Shared="False"
+        Header="Store"
+        SortMemberPath="Price.Store">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Price.Store}" TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempPriceUnlockDate"
+        Width="{StaticResource Width_TempPriceUnlockDate}"
+        x:Shared="False"
+        Header="Unlock Date"
+        SortMemberPath="Price.UnlockDate">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Price.UnlockDate}" TextAlignment="Right">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Style="{StaticResource ListViewToolTip_PriceUnlockDate}" />
+                    </ToolTipService.ToolTip>
+                </TextBlock>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempHaveAmount"
+        Width="{StaticResource Width_TempHaveAmount}"
+        x:Shared="False"
+        Header="Have"
+        SortMemberPath="HaveAmount">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBox
+                    VerticalAlignment="Center"
+                    Text="{Binding HaveAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempWantAmount"
+        Width="{StaticResource Width_TempWantAmount}"
+        x:Shared="False"
+        Header="Want"
+        SortMemberPath="WantAmount">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBox
+                    VerticalAlignment="Center"
+                    Text="{Binding WantAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempGiftTo"
+        Width="{StaticResource Width_TempGiftTo}"
+        x:Shared="False"
+        Header="Gift To"
+        SortMemberPath="GiftTo">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBox
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TextBox_NonNumeric}"
+                    Text="{Binding GiftTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextAlignment="Left" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempKeys"
+        Width="{StaticResource Width_TempKeys}"
+        x:Shared="False"
+        Header="Keys"
+        SortMemberPath="Key.Name">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate />
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempBackpack_Image"
+        Width="{StaticResource Width_TempImage}"
+        x:Shared="False"
+        CanUserSort="False"
+        Header="Image">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <Border
+                    Background="#3c352e"
+                    BorderBrush="Gray"
+                    BorderThickness="2">
+                    <Viewbox Stretch="Uniform">
+                        <Grid>
+                            <Image Source="{Binding ImageSource, Converter={StaticResource NullImageConverter}}" Stretch="Uniform">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Style="{StaticResource ListViewToolTip}" />
+                                </ToolTipService.ToolTip>
+                            </Image>
+                            <Label Content="🎩" Foreground="Gray" FontFamily="{StaticResource HatFont}">
+                                <Label.Style>
+                                    <Style>
+                                        <Setter Property="Label.Visibility" Value="Hidden" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ImageSource}" Value="{x:Null}">
+                                                <Setter Property="Label.Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Grid>
+                    </Viewbox>
+                </Border>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <Style x:Key="Temp_Backpack_ToggleButton">
+        <Setter Property="ToggleButton.Visibility" Value="Hidden" />
+        <Setter Property="ToggleButton.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border
+                        x:Name="BPTF_Border"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="3.5">
+                        <Border
+                            x:Name="BPTF_Border_IsSelected"
+                            Margin="-0.5,-0.5,-0.5,-0.5"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            BorderBrush="#FF2AB02A"
+                            BorderThickness="1.5"
+                            Visibility="Hidden" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ToggleButton.IsChecked" Value="True">
+                            <Setter TargetName="BPTF_Border" Property="Border.BorderBrush" Value="LightGreen" />
+                            <Setter TargetName="BPTF_Border_IsSelected" Property="Border.Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="ToggleButton.IsMouseOver" Value="True">
+                            <Setter TargetName="BPTF_Border" Property="Border.BorderBrush" Value="LightBlue" />
+                        </Trigger>
+                        <DataTrigger Binding="{Binding Settings.Container.IsRunning.PropertyBrush, RelativeSource={RelativeSource AncestorType=Window}, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="ToggleButton.Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ToggleButton.IsChecked" Value="{Binding IsSelected, Mode=TwoWay}" />
+    </Style>
+
+    <DataTemplate DataType="{x:Type Backpack:Quality}">
+        <Grid>
+            <Border>
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Style.Triggers>
+                            <!-- Error Color when no Quality Name is available -->
+                            <DataTrigger Binding="{Binding DisplayName}" Value="{x:Null}">
+                                <Setter Property="Background" Value="DarkGray" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding DisplayName}" Value="Normal">
+                                <Setter Property="Background" Value="#B2B2B2" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding DisplayName}" Value="Unique">
+                                <Setter Property="Background" Value="#FFD6BA25" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding DisplayName}" Value="Vintage">
+                                <Setter Property="Background" Value="#476291" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding DisplayName}" Value="Genuine">
+                                <Setter Property="Background" Value="#4D7455" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding DisplayName}" Value="Strange">
+                                <Setter Property="Background" Value="#CF6A32" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding DisplayName}" Value="Unusual">
+                                <Setter Property="Background" Value="#8650AC" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding DisplayName}" Value="Haunted">
+                                <Setter Property="Background" Value="#38F3AB" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding DisplayName}" Value="Collector's">
+                                <Setter Property="Background" Value="#AA0000" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding DisplayName}" Value="Decorated">
+                                <Setter Property="Background" Value="#FAFAFA" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding DisplayName}" Value="Community">
+                                <Setter Property="Background" Value="#70B04A" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding DisplayName}" Value="Self-Made">
+                                <Setter Property="Background" Value="#70B04A" />
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding DisplayName}" Value="Valve">
+                                <Setter Property="Background" Value="#A50F79" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            </Border>
+            <Line
+                Stretch="Uniform"
+                Stroke="DarkGray"
+                Y1="1" />
+            <Line
+                Stretch="Uniform"
+                Stroke="DarkGray"
+                X1="1" />
+            <ToggleButton Style="{StaticResource Temp_Backpack_ToggleButton}" />
+            <Grid Margin="0,0,5,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    BorderThickness="0"
+                    Foreground="White"
+                    Text="{Binding Refined, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    TextAlignment="Right">
+                    <Hyperlink
+                        NavigateUri="{Binding Url_Backpack}"
+                        RequestNavigate="Hyperlink_RequestNavigate"
+                        Style="{StaticResource Hyperlink_White}">
+                        <TextBlock Text="{Binding Original}" />
+                    </Hyperlink>
+                </TextBlock>
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Foreground="White"
+                    IsHitTestVisible="False"
+                    Text="{Binding Money}"
+                    TextAlignment="Right" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="0,0,0,10.1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Foreground="DarkGray"
+                    IsHitTestVisible="False"
+                    Text="{Binding Steam}"
+                    TextAlignment="Right" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    TextAlignment="Right">
+                    <Hyperlink NavigateUri="{Binding Url_Steam}" RequestNavigate="Hyperlink_RequestNavigate">
+                        <Hyperlink.Style>
+                            <Style BasedOn="{StaticResource Hyperlink_White}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SteamFailed}" Value="True">
+                                        <Setter Property="Hyperlink.Foreground" Value="Red" />
+                                        <Setter Property="Hyperlink.FontWeight" Value="Bold" />
+                                        <Setter Property="Hyperlink.ToolTip" Value="Failed to get price from steam." />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Hyperlink.Style>
+                        <TextBlock Text="{Binding SteamTax}" />
+                    </Hyperlink>
+                </TextBlock>
+            </Grid>
+        </Grid>
+    </DataTemplate>
+
+    <DataGridTemplateColumn
+        x:Key="TempImageProfile"
+        Width="{StaticResource Width_TempImageProfile}"
+        x:Shared="False"
+        CanUserSort="False"
+        Header="Image">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <Border Background="#3c352e" BorderThickness="2">
+                    <Border.Style>
+                        <Style>
+                            <Setter Property="Border.BorderBrush" Value="#898989" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Partner.Online}" Value="True">
+                                    <Setter Property="Border.BorderBrush" Value="#57cbde" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Viewbox Stretch="Uniform">
+                        <Grid>
+                            <Viewbox>
+                                <Grid>
+                                    <Image Source="{Binding Partner.ImageSource, Converter={StaticResource NullImageConverter}}" Stretch="Uniform" />
+                                    <Label Content="👤" Foreground="Gray">
+                                        <Label.Style>
+                                            <Style TargetType="{x:Type Label}">
+                                                <Setter Property="Visibility" Value="Hidden" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Partner.ImageSource}" Value="{x:Null}">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Label.Style>
+                                    </Label>
+                                </Grid>
+                            </Viewbox>
+                        </Grid>
+                    </Viewbox>
+                </Border>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempTraderName"
+        Width="{StaticResource Width_TempTraderName}"
+        x:Shared="False"
+        Header="Name"
+        SortMemberPath="Partner.Name">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock>
+                    <Hyperlink NavigateUri="{Binding Partner.Link}" RequestNavigate="Hyperlink_RequestNavigate">
+                        <TextBlock Text="{Binding Partner.Name}" />
+                    </Hyperlink>
+                </TextBlock>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempDateInitiated"
+        Width="{StaticResource Width_TempDateInitiated}"
+        x:Shared="False"
+        Header="Initiated"
+        SortMemberPath="Initiated">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Initiated}" TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempDateExpiration"
+        Width="{StaticResource Width_TempDateExpiration}"
+        x:Shared="False"
+        Header="Expiration"
+        SortMemberPath="Expiration">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Border
+                        Grid.Row="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="#a6801b">
+                        <Border.Style>
+                            <Style>
+                                <Setter Property="Border.Visibility" Value="Hidden" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding StateID}" Value="11">
+                                        <Setter Property="Border.Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock Foreground="White" Text="{Binding EscrowEnd, Converter={StaticResource TimeUntilConverter}}" />
+                    </Border>
+                    <TextBlock Grid.Row="1" Text="{Binding Expiration}" />
+                </Grid>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempTraderOnlineLast"
+        Width="{StaticResource Width_TempTraderOnlineLast}"
+        x:Shared="False"
+        Header="Last Online"
+        SortMemberPath="TraderOnlineLast">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Partner.OnlineLast, Converter={StaticResource TimeUntilConverter}}">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="HorizontalAlignment" Value="Left" />
+                            <Setter Property="VerticalAlignment" Value="Bottom" />
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Partner.Online}" Value="True">
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempStatus"
+        Width="{StaticResource Width_TempStatus}"
+        x:Shared="False"
+        Header="Status"
+        SortMemberPath="Status">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Status}" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempState"
+        Width="{StaticResource Width_TempState}"
+        x:Shared="False"
+        Header="State"
+        SortMemberPath="StateID">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding State}" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataTemplate x:Key="TempTradeItems" x:Shared="False">
+        <Grid MaxHeight="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=ActualHeight}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Background="{StaticResource LightPinkish}">
+                <Grid.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Outgoing.Count}" Value="0">
+                                <Setter Property="Grid.Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+
+                <ScrollViewer>
+                    <ItemsControl ItemsSource="{Binding Outgoing}" Style="{StaticResource TempItemsControl_BasicItem}" />
+                </ScrollViewer>
+                <Line
+                    VerticalAlignment="Bottom"
+                    Stretch="Uniform"
+                    Stroke="DarkGray"
+                    StrokeThickness="2"
+                    X1="1" />
+            </Grid>
+            <Grid Grid.Row="1" Background="LightGreen">
+                <Grid.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Incoming.Count}" Value="0">
+                                <Setter Property="Grid.Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+
+                <ScrollViewer>
+                    <ItemsControl ItemsSource="{Binding Incoming}" Style="{StaticResource TempItemsControl_BasicItem}" />
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+    </DataTemplate>
+
+    <Style x:Key="TempItemsControl_BasicItem">
+        <Setter Property="ItemsControl.HorizontalContentAlignment" Value="Left" />
+        <Setter Property="ItemsControl.VerticalContentAlignment" Value="Top" />
+        <Setter Property="ItemsControl.ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                            <Setter Property="ItemsControl.Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                    <Border
+                        Width="50"
+                        Height="50"
+                        Background="#3c352e"
+                        BorderThickness="2"
+                        Style="{StaticResource TempQualityBorder}">
+                        <Grid>
+                            <Viewbox>
+                                <Grid>
+                                    <Image Source="{Binding ImageSource, Converter={StaticResource NullImageConverter}}" Stretch="Uniform">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="{Binding Name}" />
+                                        </ToolTipService.ToolTip>
+                                    </Image>
+                                    <Label Content="🎩" Foreground="Gray" FontFamily="{StaticResource HatFont}">
+                                        <Label.Style>
+                                            <Style>
+                                                <Setter Property="Label.Visibility" Value="Hidden" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ImageSource}" Value="{x:Null}">
+                                                        <Setter Property="Label.Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Label.Style>
+                                    </Label>
+                                </Grid>
+                            </Viewbox>
+                            <Viewbox IsHitTestVisible="False" Stretch="Uniform">
+                                <Border>
+                                    <Border.Background>
+                                        <SolidColorBrush Opacity="0.5" Color="LightGray" />
+                                    </Border.Background>
+                                    <Border.Style>
+                                        <Style>
+                                            <Setter Property="Border.Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsMissing}" Value="True">
+                                                    <Setter Property="Border.Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <Label
+                                        Content="MISSING"
+                                        FontWeight="Bold"
+                                        Foreground="DarkRed" />
+                                </Border>
+                            </Viewbox>
+                            <TextBlock
+                                Padding="0,0,2.5,0"
+                                FontSize="10"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                IsHitTestVisible="False"
+                                Text="{Binding Amount}"
+                                TextAlignment="Right">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.Visibility" Value="Visible" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Amount}" Value="1">
+                                                <Setter Property="TextBlock.Visibility" Value="Hidden" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsMissing}" Value="True">
+                                                <Setter Property="TextBlock.Visibility" Value="Hidden" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsControl.ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsControl.ItemContainerStyle">
+            <Setter.Value>
+                <Style>
+                    <Setter Property="FrameworkElement.Margin" Value="0.5" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <DataTemplate x:Key="TempDetails_Favorite" x:Shared="False">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition>
+                    <RowDefinition.Style>
+                        <Style>
+                            <Setter Property="RowDefinition.Height" Value="0" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.Alternative_DisplayPrices, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                    <Setter Property="RowDefinition.Height" Value="*" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </RowDefinition.Style>
+                </RowDefinition>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="4.5" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <DataGrid
+                ColumnWidth="Auto"
+                ItemsSource="{Binding Price.CurrentMarketPrices.Backpack.Buy}"
+                RowHeight="35">
+                <DataGrid.Columns>
+                    <StaticResource ResourceKey="TempBackpack_Listing_TradeButton" />
+                    <StaticResource ResourceKey="TempImageProfile" />
+                    <StaticResource ResourceKey="TempColumn_TraderName" />
+                    <StaticResource ResourceKey="TempLevel" />
+                    <StaticResource ResourceKey="TempColumn_Origin" />
+                    <StaticResource ResourceKey="TempColumn_Amount" />
+                    <StaticResource ResourceKey="TempColumn_AmountBuy" />
+                    <StaticResource ResourceKey="TempSelect_Small_DontBuyWarnings" />
+                    <StaticResource ResourceKey="TempColumn_Price" />
+                    <StaticResource ResourceKey="TempColumn_PriceInRef_Their" />
+                    <StaticResource ResourceKey="TempColumn_Profit" />
+                    <StaticResource ResourceKey="TempPriceProfitEffectiveness" />
+                    <StaticResource ResourceKey="TempColumn_Listed" />
+                    <StaticResource ResourceKey="TempColumn_Description" />
+                    <StaticResource ResourceKey="TempTraderOnlineLast" />
+                </DataGrid.Columns>
+                <DataGrid.Style>
+                    <Style BasedOn="{StaticResource {x:Type DataGrid}}" TargetType="{x:Type DataGrid}">
+                        <Setter Property="Grid.Row" Value="0" />
+                        <Setter Property="Grid.Column" Value="0" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.Alternative_DisplayPrices, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                <Setter Property="Grid.ColumnSpan" Value="3" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.Style>
+            </DataGrid>
+            <DataGrid
+                ColumnWidth="Auto"
+                ItemsSource="{Binding Price.CurrentMarketPrices.Backpack.Sell}"
+                RowHeight="35">
+                <DataGrid.Columns>
+                    <StaticResource ResourceKey="TempBackpack_Listing_TradeButton" />
+                    <StaticResource ResourceKey="TempImageProfile" />
+                    <StaticResource ResourceKey="TempColumn_TraderName" />
+                    <StaticResource ResourceKey="TempColumn_HasAmount" />
+                    <StaticResource ResourceKey="TempColumn_Funds" />
+                    <StaticResource ResourceKey="TempColumn_AmountBuy" />
+                    <StaticResource ResourceKey="TempColumn_Price" />
+                    <StaticResource ResourceKey="TempColumn_PriceInRef_Their" />
+                    <StaticResource ResourceKey="TempColumn_Profit" />
+                    <StaticResource ResourceKey="TempPriceProfitEffectiveness" />
+                    <StaticResource ResourceKey="TempColumn_Listed" />
+                    <StaticResource ResourceKey="TempColumn_Description" />
+                    <StaticResource ResourceKey="TempTraderOnlineLast" />
+                </DataGrid.Columns>
+                <DataGrid.Style>
+                    <Style BasedOn="{StaticResource {x:Type DataGrid}}" TargetType="{x:Type DataGrid}">
+                        <Setter Property="Grid.Row" Value="0" />
+                        <Setter Property="Grid.Column" Value="2" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.Alternative_DisplayPrices, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                <Setter Property="Grid.Row" Value="1" />
+                                <Setter Property="Grid.Column" Value="0" />
+                                <Setter Property="Grid.ColumnSpan" Value="3" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.Style>
+            </DataGrid>
+            <GridSplitter
+                Grid.Row="0"
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                ResizeBehavior="PreviousAndNext">
+                <GridSplitter.Style>
+                    <Style TargetType="{x:Type GridSplitter}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=Settings.Container.Alternative_DisplayPrices, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </GridSplitter.Style>
+            </GridSplitter>
+
+            <DataGrid
+                Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                HeadersVisibility="None"
+                ItemsSource="{Binding Price.CurrentMarketPrices.Steam.Buy}">
+                <DataGrid.Columns>
+                    <StaticResource ResourceKey="TempSelect_Small" />
+                    <StaticResource ResourceKey="TempSteam_Listing_Price" />
+                    <StaticResource ResourceKey="TempSteam_Listing_Price_Sell" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </DataTemplate>
+
+    <DataGridTemplateColumn
+        x:Key="TempSteam_Listing_Price"
+        Width="{StaticResource Width_TempPriceSteamListings}"
+        x:Shared="False"
+        SortMemberPath="Price">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Price}" TextAlignment="Right">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource Theme}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding My}" Value="True">
+                                    <Setter Property="Background" Value="Lime" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+    <DataGridTemplateColumn
+        x:Key="TempSteam_Listing_Price_Sell"
+        Width="{StaticResource Width_TempPriceSteamListings}"
+        x:Shared="False"
+        SortMemberPath="Price">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Price}" TextAlignment="Right">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource Theme}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding My}" Value="True">
+                                    <Setter Property="Background" Value="Lime" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempBackpack_Listing_TradeButton"
+        Width="10"
+        x:Shared="False"
+        SortMemberPath="TradeOption">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <ToggleButton
+                    FontWeight="Bold"
+                    Foreground="White"
+                    IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <ToggleButton.Style>
+                        <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource Theme}">
+                            <Setter Property="Background" Value="#54748b" />
+                            <Setter Property="Content" Value="⇌" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding TradeOption}" Value="3">
+                                    <Setter Property="Background" Value="#628c2a" />
+                                    <Setter Property="Content" Value="↯" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TradeOption}" Value="2">
+                                    <Setter Property="Background" Value="#54748b" />
+                                    <Setter Property="Content" Value="↯" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TradeOption}" Value="1">
+                                    <Setter Property="Background" Value="#628c2a" />
+                                    <Setter Property="Content" Value="⇌" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TradeOption}" Value="0">
+                                    <Setter Property="Background" Value="#54748b" />
+                                    <Setter Property="Content" Value="⇌" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TradeOption}" Value="-1">
+                                    <Setter Property="Background" Value="#628c2a" />
+                                    <Setter Property="Content" Value="✚" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TradeOption}" Value="-2">
+                                    <Setter Property="Background" Value="#54748b" />
+                                    <Setter Property="Content" Value="✚" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsEnabled}" Value="False">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+    <DataGridTemplateColumn
+        x:Key="TempColumn_TraderName"
+        Width="{StaticResource Width_TempTraderName}"
+        x:Shared="False"
+        Header="Name"
+        SortMemberPath="Partner.Name">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.Style>
+                        <Style TargetType="{x:Type Grid}" BasedOn="{StaticResource Theme}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Escrow}" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource Pinkish}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Partner.ProfileVisibility}" Value="1">
+                                    <Setter Property="Background" Value="{StaticResource LightPinkish}" />
+                                    <Setter Property="ToolTip" Value="Profile is private." />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Partner.ProfileVisibility}" Value="-1">
+                                    <Setter Property="Background" Value="{StaticResource DarkPinkish}" />
+                                    <Setter Property="ToolTip" Value="Profile download failed." />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <TextBlock
+                        Grid.Row="0"
+                        FontWeight="Bold"
+                        Text="ESCROW"
+                        TextAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Hidden" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Escrow}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <Label
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Width="30"
+                        Height="35"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="18"
+                        FontWeight="Bold">
+                        <Label.Style>
+                            <Style TargetType="{x:Type Label}">
+                                <Setter Property="Visibility" Value="Hidden" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding OfferState}" Value="-1">
+                                        <Setter Property="Content" Value="⚠" />
+                                        <Setter Property="Background" Value="{StaticResource Pinkish}" />
+                                        <Setter Property="Visibility" Value="Visible" />
+                                        <Setter Property="ToolTip" Value="Offer Failed." />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding OfferState}" Value="1">
+                                        <Setter Property="Content" Value="✓" />
+                                        <Setter Property="Background" Value="LimeGreen" />
+                                        <Setter Property="Visibility" Value="Visible" />
+                                        <Setter Property="ToolTip" Value="Offer Successfully Sent!" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding OfferState}" Value="-2">
+                                        <Setter Property="Content" Value="💰" />
+                                        <Setter Property="Background" Value="{StaticResource Pinkish}" />
+                                        <Setter Property="Visibility" Value="Visible" />
+                                        <Setter Property="ToolTip" Value="Offer Failed; Insufficient Funds" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
+                    <TextBlock
+                        Grid.Row="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom">
+                        <Hyperlink NavigateUri="{Binding Partner.Link}" RequestNavigate="Hyperlink_RequestNavigate">
+                            <TextBlock Text="{Binding Partner.Name}">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Partner.TokenStatus}" Value="-1">
+                                                <Setter Property="Foreground" Value="#80070E" />
+                                                <Setter Property="FontWeight" Value="Bold" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Hyperlink>
+                    </TextBlock>
+                </Grid>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+    <DataGridTemplateColumn
+        x:Key="TempColumn_Origin"
+        x:Shared="False"
+        Header="Origin">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Origin}" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+    <DataGridTemplateColumn
+        x:Key="TempColumn_HasAmount"
+        x:Shared="False"
+        Header="Have">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock
+                    Padding="0,0,2.5,0"
+                    Text="{Binding HasAmount}"
+                    TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+    <DataGridTemplateColumn
+        x:Key="TempColumn_Funds"
+        Width="100"
+        x:Shared="False"
+        Header="Funds">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Line
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Grid.Column="0"
+                        HorizontalAlignment="Right"
+                        Stretch="Uniform"
+                        Stroke="DarkGray"
+                        Y1="1" />
+                    <Line
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        VerticalAlignment="Bottom"
+                        Stretch="Uniform"
+                        Stroke="DarkGray"
+                        X1="1" />
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Padding="0,0,2.5,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Text="{Binding Price.Has.Key}"
+                        TextAlignment="Right"
+                        ToolTip="Keys" />
+                    <Line
+                        Grid.Row="0"
+                        Grid.RowSpan="1"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        Stretch="Uniform"
+                        Stroke="DarkGray"
+                        Y1="1" />
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Padding="0,0,2.5,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Text="{Binding Price.Has.Refined}"
+                        TextAlignment="Right"
+                        ToolTip="Refined" />
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Padding="0,0,2.5,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Text="{Binding Price.Has.Reclaimed}"
+                        TextAlignment="Right"
+                        ToolTip="Reclaimed" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Padding="0,0,2.5,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Text="{Binding Price.Has.Scrap}"
+                        TextAlignment="Right"
+                        ToolTip="Scrap" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Padding="0,0,2.5,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Text="{Binding Price.Has.Weapon}"
+                        TextAlignment="Right"
+                        ToolTip="Weapons" />
+                </Grid>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+    <DataGridTemplateColumn
+        x:Key="TempColumn_Amount"
+        x:Shared="False"
+        Header="Amount">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.Style>
+                        <Style TargetType="{x:Type Grid}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding InInventory}" Value="4">
+                                    <Setter Property="Background" Value="YellowGreen" />
+                                    <Setter Property="ToolTip" Value="Multiple exist in inventory, with warnings." />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding InInventory}" Value="3">
+                                    <Setter Property="Background" Value="Chartreuse" />
+                                    <Setter Property="ToolTip" Value="Multiple exist in inventory." />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding InInventory}" Value="2">
+                                    <Setter Property="Background" Value="Yellow" />
+                                    <Setter Property="ToolTip" Value="Exist in inventory, with warnings." />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding InInventory}" Value="1">
+                                    <Setter Property="Background" Value="LightGreen" />
+                                    <Setter Property="ToolTip" Value="Exist in inventory." />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding InInventory}" Value="-1">
+                                    <Setter Property="Background" Value="{StaticResource LightPinkish}" />
+                                    <Setter Property="ToolTip" Value="Doesn't exist in inventory." />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding InInventory}" Value="-2">
+                                    <Setter Property="Background" Value="{StaticResource Pinkish}" />
+                                    <Setter Property="ToolTip" Value="Failed to acquire inventory." />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding InInventory}" Value="-3">
+                                    <Setter Property="Background" Value="{StaticResource Pinkish}" />
+                                    <Setter Property="ToolTip" Value="Partner doesn't have enough funds for 1 Item" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <TextBlock
+                        Grid.Row="0"
+                        Foreground="DarkOrange"
+                        Text="{Binding AmountWithWarnings}"
+                        TextAlignment="Right">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding AmountWithWarnings}" Value="0">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBlock
+                        Grid.Row="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Text="{Binding Amount}"
+                        TextAlignment="Right" />
+                </Grid>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+    <DataGridTemplateColumn
+        x:Key="TempColumn_Price"
+        x:Shared="False"
+        Header="Price">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Text="{Binding Price.Their_InCash, StringFormat=N2}"
+                        TextAlignment="Right" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Text="{Binding Price.Their}"
+                        TextAlignment="Right" />
+                </Grid>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+    <DataGridTemplateColumn
+        x:Key="TempColumn_PriceInRef_Their"
+        x:Shared="False"
+        Header="In Ref">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBox Text="{Binding Price.Their_InRef, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.00}}" TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+    <DataGridTemplateColumn
+        x:Key="TempColumn_SellAfterSteamTax"
+        x:Shared="False"
+        Header="You Receive">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Price.SellAfterSteamTax, StringFormat={}{0:0.00}}" TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+    <DataGridTemplateColumn
+        x:Key="TempColumn_AmountBuy"
+        x:Shared="False"
+        Header="Buy Amount">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBox Text="{Binding AmountBuy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+    <DataGridTemplateColumn
+        x:Key="TempColumn_Profit"
+        x:Shared="False"
+        Header="Profit">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Price.Profit}" TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+    <DataGridTemplateColumn
+        x:Key="TempColumn_Listed"
+        x:Shared="False"
+        Header="Listed">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Listed}" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+    <DataGridTemplateColumn
+        x:Key="TempColumn_Description"
+        Width="200"
+        x:Shared="False"
+        Header="Description">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="8"
+                    Text="{Binding Description}"
+                    TextWrapping="Wrap" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataTemplate x:Key="TempDetails_Inventory" x:Shared="False">
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="{x:Type Grid}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Price.CurrentMarketPrices.Steam.Success}" Value="1">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <DataGrid HeadersVisibility="None" ItemsSource="{Binding Price.CurrentMarketPrices.Steam.Buy}">
+                <DataGrid.Columns>
+                    <StaticResource ResourceKey="TempSelect_Small" />
+                    <StaticResource ResourceKey="TempSteam_Listing_Price" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </DataTemplate>
+
+    <Style x:Key="TempGroupingStyle_Inventory" TargetType="{x:Type GroupItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Expander IsExpanded="{Binding Items[0].IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Template="{StaticResource TempExpanderButton}">
+                        <Expander.Content>
+                            <ItemsPresenter />
+                        </Expander.Content>
+                    </Expander>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <DataTrigger Value="False">
+                <DataTrigger.Binding>
+                    <MultiBinding Converter="{StaticResource GroupSizeCheckConverter}" UpdateSourceTrigger="PropertyChanged">
+                        <Binding RelativeSource="{RelativeSource AncestorType=DataGrid}" />
+                        <Binding Path="ItemCount" />
+                    </MultiBinding>
+                </DataTrigger.Binding>
+                <Setter Property="Template" Value="{StaticResource TempGroupingStyle_Inventory_Pure}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <ControlTemplate x:Key="TempGroupingStyle_Inventory_Pure" TargetType="{x:Type GroupItem}">
+        <ItemsPresenter />
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="TempExpanderButton" TargetType="{x:Type Expander}">
+        <Grid Background="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type GroupItem}}, Path=(ItemsControl.AlternationIndex), Converter={StaticResource GroupHeaderBackgroundConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=Columns[0].ActualWidth}" />
+                    <ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=Columns[1].ActualWidth}" />
+                    <ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=Columns[2].ActualWidth}" />
+                    <ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=Columns[3].ActualWidth}" />
+                </Grid.ColumnDefinitions>
+                <ToggleButton Grid.Column="0" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border
+                                x:Name="Border_1"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Background="Transparent">
+                                <Viewbox Height="50">
+                                    <Label x:Name="Label_1" Content="▲" Background="Transparent" />
+                                </Viewbox>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="ToggleButton.IsChecked" Value="True">
+                                    <Setter TargetName="Label_1" Property="Label.Content" Value="▼" />
+                                    <Setter TargetName="Border_1" Property="Border.Background" Value="LightGreen" />
+                                </Trigger>
+                                <Trigger Property="ToggleButton.IsMouseOver" Value="True">
+                                    <Setter TargetName="Border_1" Property="Border.Background" Value="LightBlue" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+                <Viewbox Grid.Column="1">
+                    <TextBlock Foreground="DarkGray" Text="{Binding ItemCount}" />
+                </Viewbox>
+                <Border
+                    Grid.Column="2"
+                    Background="#3c352e"
+                    BorderBrush="Gray"
+                    BorderThickness="2">
+                    <Viewbox Stretch="Uniform">
+                        <Grid>
+                            <Image Source="{Binding Items[0].ImageSource, Converter={StaticResource NullImageConverter}}" Stretch="Uniform" />
+                            <Label Content="🎩" Foreground="Gray" FontFamily="{StaticResource HatFont}">
+                                <Label.Style>
+                                    <Style>
+                                        <Setter Property="Label.Visibility" Value="Hidden" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Items[0].ImageSource}" Value="{x:Null}">
+                                                <Setter Property="Label.Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Grid>
+                    </Viewbox>
+                </Border>
+                <TextBlock
+                    Grid.Column="3"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Foreground="DarkGray"
+                    Text="{Binding Items[0].Name}" />
+            </Grid>
+            <Grid Grid.Row="1">
+                <ContentPresenter x:Name="Presenter" Content="{TemplateBinding Content}" />
+                <Line
+                    x:Name="Line_1"
+                    VerticalAlignment="Bottom"
+                    Stretch="Uniform"
+                    Stroke="LightGreen"
+                    StrokeThickness="2.5"
+                    X1="1" />
+            </Grid>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsExpanded" Value="True">
+                <Setter TargetName="Presenter" Property="ContentPresenter.Visibility" Value="Visible" />
+                <Setter TargetName="Line_1" Property="ContentPresenter.Visibility" Value="Visible" />
+            </Trigger>
+            <Trigger Property="IsExpanded" Value="False">
+                <Setter TargetName="Presenter" Property="ContentPresenter.Visibility" Value="Collapsed" />
+                <Setter TargetName="Line_1" Property="ContentPresenter.Visibility" Value="Collapsed" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <DataGridTemplateColumn
+        x:Key="TempListingPriceMy"
+        Width="{StaticResource Width_TempPriceMy}"
+        x:Shared="False"
+        Header="Sell For"
+        SortMemberPath="Price.My">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Price.My}" TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempListingPriceOrder"
+        Width="{StaticResource Width_TempPriceSteam}"
+        x:Shared="False"
+        Header="Buy At"
+        SortMemberPath="Price.Order">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Price.Order}" TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempListingPriceSellAfterSteamTax"
+        Width="{StaticResource Width_TempPriceSellAfterSteamTax}"
+        x:Shared="False"
+        Header="You Receive"
+        SortMemberPath="Price.SellAfterSteamTax">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Price.SellAfterSteamTax}" TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempListingDate"
+        Width="{StaticResource Width_TempDateInitiated}"
+        x:Shared="False"
+        Header="Listed"
+        SortMemberPath="Price.Listing_Date">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Price.Listing_Date}" TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempListingQuantity"
+        Width="{StaticResource Width_TempPriceSteam}"
+        x:Shared="False"
+        Header="Quantity"
+        SortMemberPath="Price.OrderQuantity">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Price.OrderQuantity}" TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempListingListingTotalCost"
+        Width="65"
+        x:Shared="False"
+        Header="Total Cost"
+        SortMemberPath="Price.OrderTotalCost">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Foreground="Blue"
+                        Text="{Binding Price.RelistListingTotalCost}"
+                        TextAlignment="Right">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBox}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Price.RelistHasError}" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource Pinkish}" />
+                                        <Setter Property="Foreground" Value="Black" />
+                                        <Setter Property="ToolTip" Value="Price is incorrect." />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBlock
+                        Grid.Row="1"
+                        Text="{Binding Price.OrderTotalCost}"
+                        TextAlignment="Right" />
+                </Grid>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempListingPriceRelistListingAt"
+        Width="{StaticResource Width_TempPriceSellAfterSteamTax}"
+        x:Shared="False"
+        Header="Relist At"
+        SortMemberPath="Price.RelistListingAtAfterSteamTax">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBox
+                        Grid.Row="0"
+                        VerticalAlignment="Center"
+                        Text="{Binding Price.RelistListingAtAfterSteamTax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.00}}"
+                        TextAlignment="Right">
+                        <TextBox.Style>
+                            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Price.RelistHasError}" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource Pinkish}" />
+                                        <Setter Property="Foreground" Value="Black" />
+                                        <Setter Property="ToolTip" Value="Price is incorrect." />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="After SteamTax" />
+                        </ToolTipService.ToolTip>
+                    </TextBox>
+                    <TextBox
+                        Grid.Row="1"
+                        VerticalAlignment="Center"
+                        Text="{Binding Price.RelistListingAt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.00}}"
+                        TextAlignment="Right">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="Before SteamTax" />
+                        </ToolTipService.ToolTip>
+                    </TextBox>
+                </Grid>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempListingOrderTotalCost"
+        Width="65"
+        x:Shared="False"
+        Header="Total Cost"
+        SortMemberPath="Price.OrderTotalCost">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Foreground="Blue"
+                        Text="{Binding Price.RelistOrderTotalCost}"
+                        TextAlignment="Right">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Price.RelistHasError}" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource Pinkish}" />
+                                        <Setter Property="Foreground" Value="Black" />
+                                        <Setter Property="ToolTip" Value="Price is incorrect." />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBlock
+                        Grid.Row="1"
+                        Text="{Binding Price.OrderTotalCost}"
+                        TextAlignment="Right" />
+                </Grid>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempListingPriceRelistOrderAt"
+        Width="{StaticResource Width_TempPriceSellAfterSteamTax}"
+        x:Shared="False"
+        Header="Relist At"
+        SortMemberPath="Price.RelistOrderAtAfterSteamTax">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.Style>
+                        <Style TargetType="{x:Type Grid}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Status}" Value="-1">
+                                    <Setter Property="Background" Value="LightBlue" />
+                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Setter Property="ToolTip" Value="Cancel Succesful!" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Status}" Value="-2">
+                                    <Setter Property="Background" Value="{StaticResource Pinkish}" />
+                                    <Setter Property="ToolTip" Value="Cancel Failed." />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <TextBox
+                        Grid.Row="0"
+                        VerticalAlignment="Center"
+                        Text="{Binding Price.RelistOrderAtAfterSteamTax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.00}}"
+                        TextAlignment="Right">
+                        <TextBox.Style>
+                            <Style TargetType="{x:Type TextBox}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Price.RelistHasError}" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource Pinkish}" />
+                                        <Setter Property="Foreground" Value="Black" />
+                                        <Setter Property="ToolTip" Value="Price is incorrect." />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="After SteamTax" />
+                        </ToolTipService.ToolTip>
+                    </TextBox>
+                    <TextBox
+                        Grid.Row="1"
+                        VerticalAlignment="Center"
+                        Text="{Binding Price.RelistOrderAt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.00}}"
+                        TextAlignment="Right">
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="Before SteamTax" />
+                        </ToolTipService.ToolTip>
+                    </TextBox>
+                </Grid>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempListingPriceRelistAmount"
+        Width="95"
+        x:Shared="False"
+        Header="Relist Amount"
+        SortMemberPath="Price.RelistAmount">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBox
+                    VerticalAlignment="Center"
+                    Text="{Binding Price.RelistAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    TextAlignment="Right" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+
+    <DataGridTemplateColumn
+        x:Key="TempListingGame"
+        Width="{StaticResource Width_TempState}"
+        x:Shared="False"
+        Header="From"
+        SortMemberPath="AppName">
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding AppName}" />
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+</ResourceDictionary>
